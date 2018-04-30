@@ -1,0 +1,18 @@
+package com.operation.mainframe;
+
+import com.operation.appoint.MainOperationPane;
+import com.operation.appoint.PatientPane;
+import com.operation.select.MainSelectPane;
+import com.operation.select.SelectAnesthetistPane;
+import com.operation.select.SelectNursePane;
+import com.operation.select.SelectPatientPane;
+
+public class InitComponent {
+	public static PatientPane patientPane=new PatientPane();//添加病人
+	public static MainSelectPane mainSelectPane=new MainSelectPane();//主查询
+	public static MainOperationPane mainOperationPane=new MainOperationPane();//主手术
+	public static SelectNursePane selectNursePane=new SelectNursePane();//护士排班查询
+	public static SelectPatientPane selectPatientPane=new SelectPatientPane();
+	public static SelectAnesthetistPane selectAnesthetistPane =new SelectAnesthetistPane();
+
+}

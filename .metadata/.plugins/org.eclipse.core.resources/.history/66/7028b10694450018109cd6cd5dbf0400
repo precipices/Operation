@@ -1,0 +1,25 @@
+package com.operation.dao;
+
+import java.sql.Date;
+import java.util.Vector;
+
+import com.operation.common.Operation;
+
+public class Other {
+
+	public Vector<String> selectRoomByDate(Date date){
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id from room where id not in (select roomId from operation where beginTime = ?)",
+				new String[] { date.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<String> rooms = new Vector<String>();
+		String room= null;
+		for (Vector<String> e : data) {
+			room = e.get(0);
+			rooms.add(room);
+		}
+		return rooms;
+	}
+
+}

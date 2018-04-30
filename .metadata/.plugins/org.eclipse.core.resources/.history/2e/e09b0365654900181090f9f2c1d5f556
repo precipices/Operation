@@ -1,0 +1,87 @@
+package com.operation.client;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import com.operation.myComponent.BackPane;
+
+public class SelectNurse extends BackPane {
+	private SelectNurseListener listener;
+	private BackPane panel_cnurse;
+	private JButton button_search;
+	private JTextField textField_name;
+	private JButton button_save;
+
+	public SelectNurse() {
+		listener = new SelectNurseListener();
+		System.out.println("进入护士选择界面");
+		initialize();
+	}
+	
+	class SelectNurseListener implements ActionListener {//定义监听器类
+		@Override
+		public void actionPerformed(ActionEvent a) {
+			if(a.getActionCommand().equals("button_save")) {//监听器监听到button_select_nurse按扭按下会执行下面的代码
+				System.out.println("点击了护士选择保存按扭");
+				//录入并保存信息
+				JOptionPane.showMessageDialog(null, "保存成功");
+				//返回之前界面
+			}else if(a.getActionCommand().equals("button_search")) {
+				System.out.println("点击了搜索按扭");
+			}
+		}
+	}
+	
+	private void initialize() {
+		this.setLayout(null);	
+		
+		panel_cnurse = new BackPane();
+		panel_cnurse.setBounds(0, 0, 580, 510);
+		this.add(panel_cnurse);
+		panel_cnurse.setLayout(null);
+		panel_cnurse.setVisible(true);
+		
+		JLabel label_title = new JLabel("护士选择");
+		label_title.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_title.setBounds(100, 4, 109, 15);
+		panel_cnurse.add(label_title);
+		
+		JLabel label = new JLabel("姓名：");
+		label.setFont(new Font("宋体", Font.PLAIN, 15));
+		label.setBounds(60, 37, 61, 15);
+		panel_cnurse.add(label);
+		
+		textField_name = new JTextField();
+		textField_name.setColumns(10);
+		textField_name.setBounds(104, 34, 109, 21);
+		panel_cnurse.add(textField_name);
+		
+		button_search = new JButton("搜索");
+		button_search.setBounds(223, 33, 70, 23);
+		panel_cnurse.add(button_search);
+		button_search.setActionCommand("button_search");
+		button_search.addActionListener(listener);
+		
+		JScrollPane scrollPane_info_patient = new JScrollPane();
+		scrollPane_info_patient.setBounds(60, 67, 460, 198);
+		panel_cnurse.add(scrollPane_info_patient);
+		//信息显示
+		
+		
+		
+		
+		button_save = new JButton("保存");
+		button_save.setBounds(142, 330, 93, 23);
+		panel_cnurse.add(button_save);
+		button_save.setActionCommand("button_save");
+		button_save.addActionListener(listener);
+		
+	}
+}

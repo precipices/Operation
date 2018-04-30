@@ -1,0 +1,40 @@
+package com.operation.common;
+
+public class Message {
+	public static final int CHOOSE=1;//你被选择参与该手术
+	public static final int ACCEPT=2;//对方接受了你的选择
+	public static final int REFUSE=3;//对方拒绝了你的选择
+	public static final int AUTOCHOOSE=4;//你被自动选择为选择为手术参与者,不可拒绝
+	public static final int NOTCHOOSE=5;//你被从该手术中剔除
+	private String fromId;
+	private String toId;
+	private int messageType;
+	public Message(String fromId, String toId, int messageType) {
+		super();
+		this.fromId = fromId;
+		this.toId = toId;
+		this.messageType = messageType;
+	}
+	public String getFromId() {
+		return fromId;
+	}
+	public void setFromId(String fromId) {
+		this.fromId = fromId;
+	}
+	public String getToId() {
+		return toId;
+	}
+	public void setToId(String toId) {
+		this.toId = toId;
+	}
+	public int getMessageType() {
+		return messageType;
+	}
+	public void setMessageType(int messageType) {
+		this.messageType = messageType;
+	}
+	@Override
+	public String toString() {
+		return "Message [fromId=" + fromId + ", toId=" + toId + ", messageType=" + messageType + "]";
+	}
+}

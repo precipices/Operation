@@ -1,0 +1,31 @@
+package com.operation.select;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+
+public class MyControlChartPanel extends JSplitPane{
+	JScrollPane leftPanel = null;
+	JPanel rightPanel = null;
+
+	public MyControlChartPanel() {
+		rightPanel = new JPanel();
+		leftPanel = new JScrollPane(new LeftPane(rightPanel));
+		this.setLeftComponent(leftPanel);
+		this.setRightComponent(rightPanel);
+		this.setDividerLocation(200);
+		this.setDividerSize(1);
+	}
+
+
+	public static void main(String[] args) {
+		MainSelectPane p = new MainSelectPane();
+		JFrame f = new JFrame();
+		f.add(p);
+		f.setBounds(200, 100, 800, 600);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+		f.repaint();
+	}
+}

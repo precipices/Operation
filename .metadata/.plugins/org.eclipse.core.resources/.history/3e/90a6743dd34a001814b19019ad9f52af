@@ -1,0 +1,54 @@
+package com.operation.dao;
+
+import java.sql.Date;
+import java.util.Vector;
+
+import com.operation.common.Patient;
+import com.operation.common.Worker;
+
+public class PatientHelper {
+
+	//查询所有病人,返回null表示没有病人
+	public Vector<Patient> selectAllPatients() {
+		Vector<Vector<String>> data = new SqlHelper().query("select id,name,sex,birth,call from patient");
+		if (data.size() == 0)
+			return null;
+		Vector<Patient> patients = new Vector<Patient>();
+		Patient patient = null;
+		for (Vector e : data) {
+			patient = Patient.VectorToPatient(e);
+			patients.add(patient);
+		}
+		return patients;
+	}
+	//根据Id查询病人，返回null则表示id不存在
+	public Patient selectPatientById(String id) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,sex,birth,call from patient where id = ?", new String[] { id });
+		if (data.size() == 0)
+			return null;
+		Patient patient = Patient.VectorToPatient(data.get(0));
+		return patient;
+	}
+	//根据名字查询病人，返回null则表示名字不存在
+	public Vector<Patient> selectPatientByName(String name) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,sex,birth,call from patient where name = ?", new String[] { name });
+		if (data.size() == 0)
+			return null;
+		Vector<Patient> workers = new Vector<Patient>();
+		Worker worker = null;
+		for (Vector e : data) {
+			worker = Worker.VectorToWorker(e);
+			workers.add(worker);
+		}
+		return workers;
+	}
+	//增加病人,返回false表示增加失败
+	public boolean addPatient(Patient patient) {
+		return new SqlHelper().update(
+				"insert into patient (id,name,sex,birth,call) values(?, ?, ?, ?, ?)",
+				patient.toStringList());
+	}
+
+}

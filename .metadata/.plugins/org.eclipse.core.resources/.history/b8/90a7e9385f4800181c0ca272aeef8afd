@@ -1,0 +1,46 @@
+package com.operation.myComponent;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class MyFrame extends JFrame {
+
+	PicBackPane contentPane=null;
+	private void init(String picURL) {
+		//去除标题框
+		this.setUndecorated(true);
+		//设置容器
+		contentPane=new PicBackPane(picURL);
+		//设置自定义标题栏
+		JPanel titlePane=createTitlePane();
+		contentPane.add(titlePane, BorderLayout.NORTH);
+		contentPane.add(new BackPane(), BorderLayout.CENTER);
+		
+		this.setContentPane(contentPane);
+	}
+	private JPanel createTitlePane() {
+		JPanel p=new JPanel();
+		p.setBackground(Color.red);
+		p.setPreferredSize(new Dimension(this.getWidth(),30));
+		return p;
+	}
+	
+
+	public MyFrame(String title,String picURL) {
+		super(title);
+		this.init(picURL);
+	}
+
+	public static void main(String[] args) {
+		MyFrame f = new MyFrame("test","./imgs/bg.jpg");
+		f.setSize(800, 600);
+		f.setLocationByPlatform(true);
+		f.setVisible(true);
+	}
+}

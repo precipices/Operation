@@ -1,0 +1,243 @@
+package com.operation.client;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.BackPane;
+import javax.swing.JTextField;
+/**
+ * 1.把这个类设置成BackPane方便整合,JFrame无法整合
+ * 2.请在MainFrame.java里运行
+ */
+public class Appoint extends BackPane{
+	
+	private JTextField textField_patient;
+	private JTextField textField_nurse;
+	private JTextField textField_anesthetist;
+	private AppointListener listener;
+	private JButton button_select_patient;
+	private JButton button_select_nurse;
+	private JButton button_select_anesthetist;
+	private JButton button_save;
+	public BackPane panel_acenter;
+	public BackPane j;
+	
+	
+	public Appoint() {
+		listener = new AppointListener();
+		initialize();
+	}
+	
+	class AppointListener implements ActionListener {//定义监听器类
+		@Override
+		public void actionPerformed(ActionEvent a) {
+			if(a.getActionCommand().equals("button_select_patient")) {//监听器监听到button_select_nurse按扭按下会执行下面的代码
+				System.out.println("点击了病人选择按扭");
+				j = panel_acenter;
+				remove(panel_acenter);
+				panel_acenter = new SelectPatient();
+				panel_acenter.setBounds(0, 0, 580, 500);
+				add(panel_acenter);
+				validate();//更新布局
+				repaint();//重绘画面
+				//接受并显示回传信息后，继续执行代码
+				/*JOptionPane.showMessageDialog(null, "恢复");
+				
+				remove(panel_center);
+				panel_center = j;
+				panel_center.setBounds(0, 0, 580, 500);
+				add(panel_center);
+				validate();//更新布局
+				repaint();//重绘画面*/
+				
+			}else if(a.getActionCommand().equals("button_select_nurse")) {//监听器监听到button_select_nurse按扭按下会执行下面的代码
+				System.out.println("点击了护士选择按扭");
+				j = panel_acenter;
+				remove(panel_acenter);
+				panel_acenter = new SelectNurse();
+				panel_acenter.setBounds(0, 0, 580, 500);
+				add(panel_acenter);
+				validate();//更新布局
+				repaint();//重绘画面
+				
+				/*JOptionPane.showMessageDialog(null, "恢复");
+				
+				remove(panel_center);
+				panel_center = j;
+				panel_center.setBounds(0, 0, 580, 500);
+				add(panel_center);
+				validate();//更新布局
+				repaint();//重绘画面*/
+				
+			}else if(a.getActionCommand().equals("button_select_anesthetist")) {
+				System.out.println("点击了麻醉师选择按扭");
+				j = panel_acenter;
+				remove(panel_acenter);
+				panel_acenter = new SelectAnesthetist();
+				panel_acenter.setBounds(0, 0, 580, 500);
+				add(panel_acenter);
+				validate();//更新布局
+				repaint();//重绘画面
+				
+				/*JOptionPane.showMessageDialog(null, "恢复");
+				
+				remove(panel_center);
+				panel_center = j;
+				panel_center.setBounds(0, 0, 580, 500);
+				add(panel_center);
+				validate();
+				repaint();*/
+			}else if(a.getActionCommand().equals("button_save")) {
+				System.out.println("点击了保存按扭");
+				//录入并保存信息
+				JOptionPane.showMessageDialog(null, "保存成功");
+				new NewOperation();//待修改，在手术界面上显示新建预约手术的信息，新建后保存，新增NewOperation界面，下次查看时显示
+								
+				new Operation();//待修改，用remove回到手术界面
+			}
+		}
+	}
+	
+	
+	private void initialize() {
+		this.setLayout(null);	
+		
+		panel_acenter = new BackPane();
+		panel_acenter.setBounds(0, 0, 580, 500);
+		this.add(panel_acenter);
+		panel_acenter.setLayout(null);
+		panel_acenter.setVisible(true);
+		
+		JLabel label_title = new JLabel("手术预约");
+		label_title.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_title.setBounds(100, 4, 109, 15);
+		panel_acenter.add(label_title);
+		
+		
+		JLabel label_patient = new JLabel("病人：");
+		label_patient.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_patient.setBounds(45, 29, 87, 18);
+		panel_acenter.add(label_patient);
+		
+		button_select_patient = new JButton();
+		button_select_patient.setText("病人选择");
+		button_select_patient.setBounds(142, 27, 110, 23);
+		panel_acenter.add(button_select_patient);
+		button_select_patient.setActionCommand("button_select_patient");
+		button_select_patient.addActionListener(listener);
+
+		textField_patient = new JTextField();
+		textField_patient.setColumns(10);
+		textField_patient.setBounds(142, 60, 235, 21);
+		panel_acenter.add(textField_patient);
+		
+
+		JLabel label_type = new JLabel("手术类型：");
+		label_type.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_type.setBounds(45, 92, 87, 18);
+		panel_acenter.add(label_type);
+		
+		JComboBox cb_select_type = new JComboBox();
+		cb_select_type.setBounds(142, 91, 235, 21);
+		panel_acenter.add(cb_select_type);
+		
+		
+		JLabel label_date = new JLabel("手术日期：");
+		label_date.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_date.setBounds(45, 120, 87, 18);
+		panel_acenter.add(label_date);
+		
+		JLabel label_year = new JLabel("年：");
+		label_year.setBounds(142, 124, 29, 15);
+		panel_acenter.add(label_year);
+		
+		JComboBox cb_select_year = new JComboBox();
+		cb_select_year.setBounds(167, 119, 56, 21);
+		panel_acenter.add(cb_select_year);
+		
+		JLabel label_month = new JLabel("月：");
+		label_month.setBounds(233, 123, 29, 15);
+		panel_acenter.add(label_month);
+		
+		JComboBox cb_select_month = new JComboBox();
+		cb_select_month.setBounds(256, 119, 56, 21);
+		panel_acenter.add(cb_select_month);
+		
+		JLabel label_day = new JLabel("日：");
+		label_day.setBounds(325, 123, 29, 15);
+		panel_acenter.add(label_day);
+
+		JComboBox cb_select_day = new JComboBox();
+		cb_select_day.setBounds(347, 119, 56, 21);
+		panel_acenter.add(cb_select_day);
+		
+		
+		JLabel label_time = new JLabel("手术时间：");
+		label_time.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_time.setBounds(45, 148, 87, 18);
+		panel_acenter.add(label_time);
+		
+		JComboBox cb_select_stime = new JComboBox();
+		cb_select_stime.setBounds(142, 147, 113, 21);
+		panel_acenter.add(cb_select_stime);
+		
+		
+		JLabel label_room = new JLabel("手术室：");
+		label_room.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_room.setBounds(45, 178, 87, 18);
+		panel_acenter.add(label_room);
+		
+		JComboBox cb_select_room = new JComboBox();
+		cb_select_room.setBounds(142, 177, 113, 21);
+		panel_acenter.add(cb_select_room);
+		
+		
+		JLabel label_nurse = new JLabel("护士：");
+		label_nurse.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_nurse.setBounds(45, 206, 87, 18);
+		panel_acenter.add(label_nurse);
+		
+		button_select_nurse = new JButton("护士选择");
+		button_select_nurse.setBounds(142, 204, 110, 23);
+		panel_acenter.add(button_select_nurse);
+		//这里设置了监听器,以及指令名,建议把需要操作的组件声明为成员变量,这样会方便其它方法找到这个组件,详见Message.java******************
+		button_select_nurse.setActionCommand("button_select_nurse");
+		button_select_nurse.addActionListener(listener);
+		
+		textField_nurse = new JTextField();
+		textField_nurse.setBounds(142, 229, 235, 21);
+		panel_acenter.add(textField_nurse);
+		textField_nurse.setColumns(10);
+		
+		
+		JLabel label_anesthetist = new JLabel("麻醉师：");
+		label_anesthetist.setFont(new Font("宋体", Font.PLAIN, 15));
+		label_anesthetist.setBounds(45, 262, 87, 18);
+		panel_acenter.add(label_anesthetist);
+		
+		button_select_anesthetist = new JButton("麻醉师选择");
+		button_select_anesthetist.setBounds(142, 260, 110, 23);
+		panel_acenter.add(button_select_anesthetist);
+		button_select_anesthetist.setActionCommand("button_select_anesthetist");
+		button_select_anesthetist.addActionListener(listener);
+		
+		textField_anesthetist = new JTextField();
+		textField_anesthetist.setColumns(10);
+		textField_anesthetist.setBounds(142, 287, 235, 21);
+		panel_acenter.add(textField_anesthetist);
+		
+		
+		button_save = new JButton("保存");
+		button_save.setBounds(143, 352, 93, 23);
+		panel_acenter.add(button_save);
+		button_save.setActionCommand("button_save");
+		button_save.addActionListener(listener);
+		
+	}
+}

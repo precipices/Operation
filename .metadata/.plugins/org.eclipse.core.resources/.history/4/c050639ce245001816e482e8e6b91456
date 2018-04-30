@@ -1,0 +1,52 @@
+package com.operation.server;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.operation.common.Message;
+/**
+ * 本类为线程池,用来存放所有的线程
+ * @author pre
+ *
+ */
+public class ThreadPool {
+	//存放待连接线程
+	private static ArrayList<ServerThread> waitThreads = new ArrayList<ServerThread>();
+	//存放已连接到客户端的线程,String为用户id
+	private static Map<String,ServerThread> serverThreads = new HashMap<String,ServerThread>();
+	//
+	private static Map<String,Message> messages = new HashMap<String, Message>();
+	
+	
+	public static void addMessage(String id,Message message) {
+		messages.put(id, message);
+	}
+	public static void removeMessage(String id) {
+		messages.remove(id);
+	}
+
+	public static void addWaitThread(ServerThread waitThread) {
+		waitThreads.add(waitThread);
+	}
+	public static void removeWaitThread(ServerThread waitThread) {
+		waitThreads.remove(waitThread);
+	}
+	public static void addServerThread(String id,ServerThread serverThread) {
+		if(serverThreads.get(id)!=null) {
+			System.out.println("id已登陆，为方便测试，暂时不限制");
+			
+		}
+		serverThreads.put(id,serverThread);
+	}
+	public static void removeServerThread(String id) {
+		serverThreads.remove(id);
+	}
+	public static int getWaitThreadsSize() {
+		return waitThreads.size();
+	}
+
+	//存放各个Message
+
+
+}

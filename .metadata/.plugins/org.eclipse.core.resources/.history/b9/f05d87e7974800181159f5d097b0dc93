@@ -1,0 +1,11 @@
+package com.operation.select;
+
+import java.awt.CardLayout;
+
+import com.operation.myComponent.BackPane;
+
+public class RightPane extends BackPane{
+	public RightPane() {
+		CardLayout card=new CardLayout();
+	}
+}

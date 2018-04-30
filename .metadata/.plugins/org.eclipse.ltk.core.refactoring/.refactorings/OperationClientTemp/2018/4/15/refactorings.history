@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Manager.java&apos; to &apos;OperationClient/src/com.operation.client&apos;&#x0D;&#x0A;- Original project: &apos;OperationClientTemp&apos;&#x0D;&#x0A;- Destination element: &apos;OperationClient/src/com.operation.client&apos;&#x0D;&#x0A;- Original element: &apos;com.operation.client.Manager.java&apos;" description="Copy compilation unit" destination="=OperationClient/src&lt;com.operation.client" element1="/src&lt;com.operation.client{Manager.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1523700424205" units="1" version="1.0"/>
+</session>

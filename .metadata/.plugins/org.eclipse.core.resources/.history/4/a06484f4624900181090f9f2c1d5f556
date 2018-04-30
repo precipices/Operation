@@ -1,0 +1,66 @@
+package com.operation.myComponent;
+
+import java.awt.Component;
+import java.util.Vector;
+
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
+public class BackTable extends JTable{
+
+	private void init() {}
+	public BackTable() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackTable(int arg0, int arg1) {
+		super(arg0, arg1);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackTable(Object[][] arg0, Object[] arg1) {
+		super(arg0, arg1);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+		super(dm, cm, sm);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackTable(TableModel dm, TableColumnModel cm) {
+		super(dm, cm);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackTable(TableModel dm) {
+		super(dm);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackTable(Vector rowData, Vector columnNames) {
+		super(rowData, columnNames);
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+		 Component c = super.prepareRenderer(renderer, row, column);
+		 if (c instanceof JComponent) {
+		 ((JComponent) c).setOpaque(false);
+		 }
+		 return c;
+		return super.prepareRenderer(renderer, row, column);
+	}
+	// public Component prepareRenderer(TableCellRenderer renderer, int row, int
+	// column) {
+	// Component c = super.prepareRenderer(renderer, row, column);
+	// if (c instanceof JComponent) {
+	// ((JComponent) c).setOpaque(false);
+	// }
+	// return c;
+	// }
+}

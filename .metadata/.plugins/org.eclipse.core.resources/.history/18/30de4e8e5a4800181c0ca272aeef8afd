@@ -1,0 +1,22 @@
+package com.operation.myComponent;
+
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+public class PicBackPane extends BackPane{
+	Image img;
+	private void init(String picName) {
+		
+	}
+	public PicBackPane(String picName) {
+		img=new ImageIcon("./imgs/bg.jpg").getImage();
+		
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+	}
+}

@@ -1,0 +1,20 @@
+package temp;
+
+import javax.swing.JFrame;
+
+import com.operation.client.MainFrame;
+import com.operation.common.Worker;
+import com.operation.rpc.RPCHelper;
+
+public class Test {
+	public static void main(String[] args) {
+		RPCHelper helper = null;
+		Worker worker = null;
+		JFrame myFrame = null;
+
+		helper = new RPCHelper();
+		helper.login("w0001", "123");
+		worker = helper.selectWorkerById("w0001");
+		myFrame = new MainFrame(helper, worker);
+	}
+}

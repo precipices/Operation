@@ -1,0 +1,34 @@
+package com.operation.select;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import com.operation.myComponent.BackPane;
+import com.operation.myComponent.BackSplitPane;
+import com.operation.myComponent.MyFrame;
+
+public class MainSelectPane extends BackSplitPane{
+	JScrollPane leftPanel = null;
+	BackPane rightPanel = null;
+
+	public MainSelectPane() {
+		rightPanel = new BackPane();
+		leftPanel = new JScrollPane(new LeftPane(rightPanel));
+		this.setLeftComponent(leftPanel);
+		this.setRightComponent(rightPanel);
+		this.setDividerLocation(200);
+		this.setDividerSize(1);
+	}
+
+
+	public static void main(String[] args) {
+		MainSelectPane p = new MainSelectPane();
+		JFrame f = new MyFrame("test","./imgs/bg2.jpg");
+		f.add(p);
+		f.setBounds(200, 100, 800, 600);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+		f.repaint();
+	}
+}

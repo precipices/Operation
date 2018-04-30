@@ -1,0 +1,105 @@
+package com.operation.client;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import com.operation.myComponent.BackButton;
+
+
+
+public class NewOperation extends JPanel{
+	private JPanel panel_info;
+	private NewOperationListener listener;
+	//private JTable table;
+	
+	private JTextField textField_pname;
+	private JTextField textField_type;
+	private JTextField textField_date;
+	private JTextField textField_no;
+	
+	public NewOperation() {
+		listener = new NewOperationListener();
+		initialize();
+	}
+	
+	class NewOperationListener implements ActionListener {//定义监听器类
+		@Override
+		public void actionPerformed(ActionEvent a) {
+			if(a.getActionCommand().equals("button_info_1")) {
+				System.out.println("点击了编辑按扭");
+				
+			}else if(a.getActionCommand().equals("button_info_2")) {
+				System.out.println("点击了删除按扭");
+				
+			}/*else if(a.getActionCommand().equals("button_select_anesthetist")) {
+				System.out.println("点击了麻醉师选择按扭");
+				
+			}*/
+		}
+	}
+	
+	private void initialize() {
+		this.setLayout(null);	
+		
+		panel_info = new JPanel();
+		panel_info.setBounds(27, 111, 550, 70);
+		this.add(panel_info);
+		panel_info.setLayout(null);
+		panel_info.setVisible(true);
+		
+		BackButton button_info_1 = new BackButton("编辑");
+		button_info_1.setBounds(437, 10, 78, 23);
+		panel_info.add(button_info_1);
+		button_info_1.setActionCommand("button_info_1");
+		button_info_1.addActionListener(listener);
+		
+		BackButton button_info_2 = new BackButton("删除");
+		button_info_2.setBounds(437, 37, 78, 23);
+		panel_info.add(button_info_2);
+		button_info_2.setActionCommand("button_info_2");
+		button_info_2.addActionListener(listener);
+		
+		JLabel label = new JLabel("手术");
+		label.setFont(new Font("宋体", Font.PLAIN, 14));
+		label.setBounds(10, 10, 57, 23);
+		panel_info.add(label);
+		
+		textField_no = new JTextField();//放手术编号用以标识
+		textField_no.setBounds(48, 11, 78, 21);
+		panel_info.add(textField_no);
+		textField_no.setColumns(10);
+		
+		JLabel label_pname = new JLabel("病人：");
+		label_pname.setBounds(10, 41, 54, 15);
+		panel_info.add(label_pname);
+		
+		textField_pname = new JTextField();
+		textField_pname.setBounds(48, 38, 78, 21);
+		panel_info.add(textField_pname);
+		textField_pname.setColumns(10);
+		
+		JLabel label_type = new JLabel("手术类型：");
+		label_type.setBounds(148, 15, 78, 15);
+		panel_info.add(label_type);
+		
+		textField_type = new JTextField();
+		textField_type.setColumns(10);
+		textField_type.setBounds(211, 12, 193, 21);
+		panel_info.add(textField_type);
+		
+		JLabel label_date = new JLabel("手术日期：");
+		label_date.setBounds(148, 42, 66, 15);
+		panel_info.add(label_date);
+		
+		textField_date = new JTextField();
+		textField_date.setColumns(10);
+		textField_date.setBounds(211, 38, 193, 21);
+		panel_info.add(textField_date);
+		
+		}
+}

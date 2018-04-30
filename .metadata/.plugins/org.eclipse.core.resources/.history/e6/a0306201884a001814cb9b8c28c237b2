@@ -1,0 +1,10 @@
+package com.operation.mainframe;
+
+import com.operation.appoint.PatientPane;
+import com.operation.select.MainSelectPane;
+
+public class InitComponent {
+	public static PatientPane patientPane=new PatientPane();
+	public static MainSelectPane mainSelectPane=new MainSelectPane();
+
+}

@@ -1,0 +1,176 @@
+package com.operation.appoint;
+
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import com.operation.common.Patient;
+import com.operation.mainframe.InitComponent;
+import com.operation.myComponent.BackPane;
+import com.operation.myComponent.DateChooser;
+
+//新建病人信息的界面
+public class PatientPane extends BackPane {
+	private BackPane panel_NPcenter;
+	private NewPatientListener listener;
+	private JTextField id;
+	private JTextField name;
+	private JTextField call;
+	private JButton submit;
+	JRadioButton sexM;
+	JRadioButton sexF;
+	JLabel birth;
+
+	public void clearInput() {
+		id.setText("");
+		name.setText("");
+		call.setText("");
+		birth.setText("单击选择日期");
+		sexM.setSelected(true);
+	}
+	public PatientPane() {
+		listener = new NewPatientListener();
+		initialize();
+	}
+
+	class NewPatientListener implements ActionListener {// 定义监听器类
+		@Override
+		public void actionPerformed(ActionEvent a) {
+			if (a.getActionCommand().equals("submit")) {
+				System.out.println("点击了保存按扭");
+				if(id.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(PatientPane.this, "ID不可为空!");
+					return;
+				}
+				if(name.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(PatientPane.this, "姓名不可为空!");
+					return;
+				}
+				Date birthTime = null;
+				try {
+					birthTime = Date.valueOf(birth.getText());
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(PatientPane.this, "请选择出生日期!");
+					return;
+				}
+				String sex = "男";
+				if (sexF.isSelected()) {
+					sex = "女";
+				}
+				if(call.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(PatientPane.this, "联系方式不可为空!");
+					return;
+				}
+				if(InitComponent.helper==null) {
+					JOptionPane.showMessageDialog(PatientPane.this, "服务器未开启!");
+					return;
+				}
+				Patient p=InitComponent.helper.selectPatientById(id.getText().trim());
+				if(p!=null) {
+					JOptionPane.showMessageDialog(PatientPane.this, "ID已被占用!");
+					return;
+				}
+				Patient patient = new Patient(id.getText().trim(), name.getText().trim(), sex, birthTime, call.getText().trim());
+				if(InitComponent.helper.addPatient(patient)) {
+					JOptionPane.showMessageDialog(PatientPane.this, "提交成功,病人信息已被录入数据库,现已可以使用!");
+					clearInput();
+				}else {
+					JOptionPane.showMessageDialog(PatientPane.this, "病人信息添加失败!");
+				}
+				
+			}
+		}
+	}
+
+	private void initialize() {
+//		this.setLayout(null);
+
+		panel_NPcenter = new BackPane();
+//		panel_NPcenter.setBounds(10, 10, 580, 500);
+		panel_NPcenter.setPreferredSize(new Dimension(400, 500));
+		this.add(panel_NPcenter);
+		panel_NPcenter.setLayout(null);
+		panel_NPcenter.setVisible(true);
+
+		JLabel label_title = new JLabel("新建病人信息");
+		label_title.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_title.setBounds(135, 10, 109, 15);
+		panel_NPcenter.add(label_title);
+
+		JLabel label_p_id = new JLabel("请输入编号：");
+		label_p_id.setFont(new Font("宋体", Font.PLAIN, 14));
+		label_p_id.setBounds(36, 59, 95, 32);
+		panel_NPcenter.add(label_p_id);
+
+		id = new JTextField();
+		id.setColumns(10);
+		id.setBounds(137, 65, 193, 21);
+		panel_NPcenter.add(id);
+
+		JLabel label_p_name = new JLabel("病人姓名：");
+		label_p_name.setFont(new Font("宋体", Font.PLAIN, 14));
+		label_p_name.setBounds(36, 101, 95, 32);
+		panel_NPcenter.add(label_p_name);
+
+		name = new JTextField();
+		name.setColumns(10);
+		name.setBounds(137, 107, 194, 21);
+		panel_NPcenter.add(name);
+
+		JLabel label_p_sex = new JLabel("病人性别：");
+		label_p_sex.setFont(new Font("宋体", Font.PLAIN, 14));
+		label_p_sex.setBounds(36, 143, 95, 32);
+		panel_NPcenter.add(label_p_sex);
+
+		sexM = new JRadioButton("男");
+		sexM.setBounds(137, 148, 54, 23);
+		panel_NPcenter.add(sexM);
+
+		sexF = new JRadioButton("女");
+		sexF.setBounds(215, 148, 54, 23);
+		panel_NPcenter.add(sexF);
+
+		ButtonGroup sex = new ButtonGroup();
+		sexM.setSelected(true);
+		sexM.setOpaque(true);
+		sex.add(sexM);
+		sex.add(sexF);
+
+		JLabel label_p_age = new JLabel("病人年龄：");
+		label_p_age.setFont(new Font("宋体", Font.PLAIN, 14));
+		label_p_age.setBounds(36, 185, 95, 32);
+		panel_NPcenter.add(label_p_age);
+
+		birth = new JLabel("单击选择日期");
+		DateChooser dateChooser = DateChooser.getInstance("yyyy-MM-dd");
+		dateChooser.register(birth);
+		birth.setBounds(137, 191, 90, 21);
+		panel_NPcenter.add(birth);
+
+		JLabel label_p_number = new JLabel("病人联系方式：");
+		label_p_number.setFont(new Font("宋体", Font.PLAIN, 14));
+		label_p_number.setBounds(36, 227, 109, 32);
+		panel_NPcenter.add(label_p_number);
+
+		call = new JTextField();
+		call.setColumns(10);
+		call.setBounds(137, 233, 194, 21);
+		panel_NPcenter.add(call);
+
+		submit = new JButton("提交");
+		submit.setBounds(143, 352, 93, 23);
+		panel_NPcenter.add(submit);
+		submit.setActionCommand("submit");
+		submit.addActionListener(listener);
+
+	}
+}

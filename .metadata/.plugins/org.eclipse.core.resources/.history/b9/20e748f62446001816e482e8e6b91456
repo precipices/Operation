@@ -1,0 +1,45 @@
+package temp;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
+
+public class Test {
+
+	private static List<String> strs = Collections.synchronizedList(new ArrayList<String>());
+	public static boolean addString(String String) {
+		strs.add(String);
+		return true;
+	}
+
+	public static Vector<String> getStrs(String t) {
+		Vector<String> ss = new Vector<String>();
+		for(String s:strs) {
+			if (s.equals(t)) {
+				ss.add(s);
+			}
+		}
+		return ss;
+	}
+
+	public static boolean removeString(String t) {
+		boolean flag=false;
+		for(String s:strs) {
+			if (s.equals(t)) {
+				strs.remove(s);
+				flag=true;
+			}
+		}
+		return flag;
+	}
+	public static void main(String[] args) {
+		Test t=new Test();
+		t.addString("1");
+		t.addString("2");
+		t.addString("3");
+		t.addString("4");
+		t.addString("5");
+		
+	}
+}

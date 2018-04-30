@@ -1,0 +1,63 @@
+package com.operation.common;
+
+import java.io.Serializable;
+
+public class Message implements Serializable{
+	public static final int CHOOSE=1;//你被选择参与该手术
+	public static final int ACCEPT=2;//对方接受了你的选择
+	public static final int REFUSE=3;//对方拒绝了你的选择
+	public static final int AUTOCHOOSE=4;//你被自动选择为选择为手术参与者,不可拒绝
+	public static final int NOTCHOOSE=5;//你被从该手术中剔除
+	public static final int END=6;//
+	private String fromId;
+	private String toId;
+	private String operationId;
+	private int messageType;
+	
+	public Message(String fromId, String toId, String operationId, int messageType) {
+		super();
+		this.fromId = fromId;
+		this.toId = toId;
+		this.operationId = operationId;
+		this.messageType = messageType;
+	}
+
+	public String getFromId() {
+		return fromId;
+	}
+
+	public void setFromId(String fromId) {
+		this.fromId = fromId;
+	}
+
+	public String getToId() {
+		return toId;
+	}
+
+	public void setToId(String toId) {
+		this.toId = toId;
+	}
+
+	public String getOperationId() {
+		return operationId;
+	}
+
+	public void setOperationId(String operationId) {
+		this.operationId = operationId;
+	}
+
+	public int getMessageType() {
+		return messageType;
+	}
+
+	public void setMessageType(int messageType) {
+		this.messageType = messageType;
+	}
+
+	@Override
+	public String toString() {
+		return "Message [fromId=" + fromId + ", toId=" + toId + ", operationId=" + operationId + ", messageType="
+				+ messageType + "]";
+	}
+
+}

@@ -1,0 +1,7 @@
+package com.operation.myComponent;
+
+import javax.swing.JSplitPane;
+
+public class BackSplitPane extends JSplitPane{
+
+}

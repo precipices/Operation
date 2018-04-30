@@ -1,0 +1,19 @@
+package com.operation.manager;
+import javax.swing.*;
+import java.awt.*;
+public class Manager extends JFrame{
+	JButton deleteButton=new JButton("删除账户");
+	JButton removeButton=new JButton("创建账户");
+	public Manager() {
+		super("账户管理");
+		
+
+		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frm.setBounds(200, 100, 600, 400);
+		frm.setVisible(true);
+	}
+	public static void main(String[] args){
+		new Manager();
+		      
+	}
+}

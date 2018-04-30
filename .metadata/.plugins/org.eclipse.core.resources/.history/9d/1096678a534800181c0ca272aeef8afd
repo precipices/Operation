@@ -1,0 +1,21 @@
+package temp;
+
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+import com.operation.myComponent.BackPane;
+
+public class MainFrameBackPane extends BackPane{
+	Image img;
+	public MainFrameBackPane() {
+		img=new ImageIcon("./imgs/bg.jpg").getImage();
+		
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+	}
+}

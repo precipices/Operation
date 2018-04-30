@@ -1,0 +1,16 @@
+package temp;
+
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+public class MainFrameBackPane extends BackPane{
+	public MainFrameBackPane() {
+		
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+	}
+}

@@ -1,0 +1,14 @@
+package com.operation.appoint;
+
+import com.operation.myComponent.BackPane;
+
+public class TestPane extends BackPane {
+
+	/**
+	 * Create the panel.
+	 */
+	public TestPane() {
+
+	}
+
+}

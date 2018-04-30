@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="helper" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="true" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="helper"/>
+			<item value="radioButton_f"/>
+			<item value="radioButton_m"/>
+			<item value="sex"/>
+			<item value="button_save"/>
+			<item value="textField_p_number"/>
+			<item value="textField_p_age"/>
+			<item value="textField_p_name"/>
+			<item value="textField_p_id"/>
+			<item value="新建预约"/>
+			<item value="Appoint"/>
+			<item value="服务器"/>
+			<item value="selectRoom"/>
+			<item value="select"/>
+			<item value="nurseInfo"/>
+		</list>
+		<list key="replacehistory">
+			<item value="sexF"/>
+			<item value="sexM"/>
+			<item value="submit"/>
+			<item value="call"/>
+			<item value="age"/>
+			<item value="name"/>
+			<item value="id"/>
+			<item value="patientInfo"/>
+			<item value="查询全部"/>
+			<item value="beginSelect"/>
+			<item value="saveButton"/>
+			<item value="mainPane"/>
+			<item value="BackButton"/>
+			<item value="BackPane"/>
+			<item value="row"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="300" key="DIALOG_WIDTH"/>
+		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
+		<item value="410" key="DIALOG_HEIGHT"/>
+		<item value="1133" key="DIALOG_X_ORIGIN"/>
+		<item value="323" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

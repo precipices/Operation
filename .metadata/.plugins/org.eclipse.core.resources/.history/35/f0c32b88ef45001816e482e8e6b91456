@@ -1,0 +1,18 @@
+package temp;
+
+import com.operation.client.MainFrame;
+import com.operation.common.Worker;
+import com.operation.rpc.RPCHelper;
+
+public class TestMessage {
+	public static void main(String[] args) {
+		RPCHelper helper = null;
+		Worker worker = null;
+
+		helper = new RPCHelper();
+		helper.login("w0001", "123");
+		worker = helper.selectWorkerById("w0001");
+		new MainFrame(helper,worker);
+		
+	}
+}

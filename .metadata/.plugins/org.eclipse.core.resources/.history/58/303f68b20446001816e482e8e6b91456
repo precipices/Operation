@@ -1,0 +1,79 @@
+package com.operation.dao;
+
+import java.sql.Date;
+import java.util.Vector;
+
+import com.operation.common.Worker;
+
+public class WorkerHelper {
+
+	public WorkerHelper() {
+
+	}
+	//判断id是否存在
+	public boolean isIdExist(String id) {
+		Vector<Vector<String>> data = new SqlHelper().query("select id from worker where id = ?", new String[] { id });
+		if (data.size() == 0)
+			return false;
+		return true;
+	}
+
+	// 根据Id查询Worker，返回null则表示id不存在
+	public Worker selectWorkerById(String id) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,password,name,sex,birth,position,call,section from worker where id=?", new String[] { id });
+		if (data.size() == 0)
+			return null;
+		Worker worker = Worker.VectorToWorker(data.get(0));
+		return worker;
+	}
+	//查询某天有空的护士，返回null则表示该天没有有空的护士
+	public Vector<Worker> selectNursesByDate(Date date) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,password,name,sex,birth,position,call,section from worker where position = '护士' and id not in (select nurseId from operation where beginTime = ?)",
+				new String[] { date.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Worker> workers=new Vector<Worker>();
+		Worker worker =null;
+		for(Vector e:data) {
+			worker= Worker.VectorToWorker(e);
+			workers.add(worker);
+		}
+		return workers;
+	}
+	//查询某天有空的麻醉师，返回null则表示该天没有有空的麻醉师
+	public Vector<Worker> selectAnesthetistsByDate(Date date) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,password,name,sex,birth,position,call,section from worker where position = '麻醉师' and id not in (select anesthetistId from operation where beginTime = ?)",
+				new String[] { date.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Worker> workers=new Vector<Worker>();
+		Worker worker =null;
+		for(Vector e:data) {
+			worker= Worker.VectorToWorker(e);
+			workers.add(worker);
+		}
+		return workers;
+	}
+	//增加员工,返回false表示增加失败
+	public boolean addWorker(Worker worker) {
+		return new SqlHelper().update(
+				"insert into worker (id,password,name,sex,birth,position,call,section) values(?, ?, ?, ?, ?, ?, ?,?)",
+				worker.toStringList());
+	}
+	//删除员工,返回false表示删除失败
+	public boolean deleteWorker(String id) {
+		return new SqlHelper().update("delete from worker where id = ?", new String[] {id});
+	}
+	//自动选择合适的护士
+	public Worker autoSelectNurse(Date date,String refuseId) {
+		Vector<Worker> nurses = new WorkerHelper().selectNursesByDate(date);
+		for(Worker nurse:nurses) {
+			
+		}
+		return null;
+	}
+
+}

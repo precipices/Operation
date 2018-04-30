@@ -1,0 +1,24 @@
+package com.operation.mainframe;
+
+import com.operation.appoint.MainOperationPane;
+import com.operation.appoint.PatientPane;
+import com.operation.rpc.RPCHelper;
+import com.operation.select.MainSelectPane;
+import com.operation.select.SelectAnesthetistPane;
+import com.operation.select.SelectNursePane;
+import com.operation.select.SelectPatientPane;
+
+public class InitComponent {
+	//"手术室查询", "病人查询", "医生排班查询", "护士排班查询","麻醉师排班查询","手术查询","与我相关的手术"
+	public static RPCHelper helper = null;
+	public static PatientPane patientPane=new PatientPane();//添加病人
+	public static MainSelectPane mainSelectPane=new MainSelectPane();//主查询
+	public static MainOperationPane mainOperationPane=new MainOperationPane();//主手术
+	public static SelectNursePane selectNursePane=new SelectNursePane();//护士排班查询
+	public static SelectPatientPane selectPatientPane=new SelectPatientPane();//病人查询
+	public static SelectAnesthetistPane selectAnesthetistPane =new SelectAnesthetistPane();//麻醉师排班查询
+	public static void initClient() {
+		
+	}
+
+}

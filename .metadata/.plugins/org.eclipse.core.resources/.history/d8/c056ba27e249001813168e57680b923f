@@ -1,0 +1,5 @@
+package com.operation.mainframe;
+
+public class InitParas {
+	public static String[] operationNames=new String[] {"手术1","手术2","手术3","手术4","手术5","手术6"};
+}

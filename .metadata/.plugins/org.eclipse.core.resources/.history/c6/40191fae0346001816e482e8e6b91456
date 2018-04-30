@@ -1,0 +1,206 @@
+package com.operation.dao;
+
+import java.sql.Date;
+import java.util.Vector;
+
+import com.operation.common.Operation;
+import com.operation.common.Worker;
+
+public class OperationHelper {
+
+	// 查询所有手术,返回null表示没有手术
+	public Vector<Operation> selectAllOperations() {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation");
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 根据id查单个手术,返回null表示id不存在
+	public Operation selectOperationById(String id) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where id=?",
+				new String[] { id });
+		if (data.size() == 0)
+			return null;
+		Operation operation = Operation.VectorToOperation(data.get(0));
+		return operation;
+	}
+
+	// 某天的所有手术,返回null表示当天没有手术
+	public Vector<Operation> selectOperationByDate(Date date) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where beginTime=?",
+				new String[] { date.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 查询自某日期之后的手术
+	public Vector<Operation> selectOperationAfterDate(Date date) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where beginTime>=?",
+				new String[] { date.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 查两个日期之间的手术,返回null表示两个日期之间没有手术
+	public Vector<Operation> selectOperationsBetween(Date begin, Date end) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where beginTime between ? and ?",
+				new String[] { begin.toString(), end.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 查某员工参与的全部手术,返回null表示员工没有手术
+	public Vector<Operation> selectWorkerAllOperations(String workerId) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where doctorId = ? or nurseId=? or anesthetistId=?",
+				new String[] { workerId, workerId, workerId });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 查某员工某日期参与的单个手术,返回null表示员工当天没有手术
+	public Operation selectWorkerOperationsByDate(String workerId, Date date) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where (doctorId = ? or nurseId=? or anesthetistId=?) and beginTime = ?",
+				new String[] { workerId, workerId, workerId, date.toString() });
+		if (data.size() == 0)
+			return null;
+		Operation operation = Operation.VectorToOperation(data.get(0));
+		return operation;
+	}
+
+	// 查某员工两日期之间参与的全部手术,返回null表示员工两个日期之间没有手术
+	public Vector<Operation> selectWorkerAllOperationsBetween(String workerId, Date begin, Date end) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where (doctorId = ? or nurseId=? or anesthetistId=?) and beginTime between ? and ?",
+				new String[] { workerId, workerId, workerId, begin.toString(), end.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 查某病人参与的全部手术,返回null表示病人没有手术
+	public Vector<Operation> selectPatientAllOperations(String patientId) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where patientId = ?",
+				new String[] { patientId });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
+
+	// 增加手术,返回false表示增加失败
+	public boolean addOperation(Operation operation) {
+		return new SqlHelper().update(
+				"insert into operation (id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord) values(?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,?)",
+				operation.toStringList());
+	}
+
+	// 添加或修改参与手术的医生,返回false表示修改失败
+	public boolean updateDoctorToOperation(String id, String doctorId) {
+		Worker worker=new WorkerHelper().selectWorkerById(anesthetistId);
+		if(!worker.getPosition().equals("麻醉师"))
+			return false;
+		return new SqlHelper().update(
+				"update operation set doctorId = ? where id = ?",
+				new String[] {doctorId,id});
+	}
+	// 添加或修改参与手术的护士,返回false表示修改失败
+	public boolean updateNurseToOperation(String id, String nurseId) {
+		Worker worker=new WorkerHelper().selectWorkerById(nurseId);
+		if(!worker.getPosition().equals("护士"))
+			return false;
+		return new SqlHelper().update(
+				"update operation set nurseId = ? where id = ?",
+				new String[] {nurseId,id});
+	}
+	// 添加或修改参与手术的麻醉师,返回false表示修改失败
+	public boolean updateAnesthetistToOperation(String id, String anesthetistId) {
+		Worker worker=new WorkerHelper().selectWorkerById(anesthetistId);
+		if(!worker.getPosition().equals("麻醉师"))
+			return false;
+		return new SqlHelper().update(
+				"update operation set anesthetistId = ? where id = ?",
+				new String[] {anesthetistId,id});
+	}
+	
+	// 添加或修改医生手术记录,返回false表示修改失败
+	public boolean updateDoctorRecordToOperation(String id, String doctorRecord) {
+		return new SqlHelper().update(
+				"update operation set doctorRecord = ? where id=?",
+				new String[] {doctorRecord,id});
+	}
+	// 添加或修改护士手术记录,返回false表示修改失败
+	public boolean updateNurseRecordToOperation(String id, String nurseRecord) {
+		return new SqlHelper().update(
+				"update operation set nurseRecord = ? where id=?",
+				new String[] {nurseRecord,id});
+	}
+	// 添加或修改麻醉师手术记录,返回false表示修改失败
+	public boolean updateAnesthetistRecordToOperation(String id, String anesthetistRecord) {
+		return new SqlHelper().update(
+				"update operation set anesthetistRecord = ? where id=?",
+				new String[] {anesthetistRecord,id});
+	}
+	
+	// 添加或修改手术室,返回false表示修改失败
+	public boolean updateRoomToOperation(String id, String roomId) {
+		return new SqlHelper().update(
+				"update operation set roomId = ? where id=?",
+				new String[] {roomId,id});
+	}
+	
+
+}

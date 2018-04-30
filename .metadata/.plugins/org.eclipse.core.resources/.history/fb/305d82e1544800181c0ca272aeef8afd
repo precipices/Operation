@@ -1,0 +1,7 @@
+package com.operation.myComponent;
+
+import javax.swing.JScrollPane;
+
+public class BackScrollPane extends JScrollPane {
+
+}

@@ -1,0 +1,68 @@
+1524374974052	Delete element
+1524375024111	Rename type 'Test'
+1524377602946	Delete element
+1524377619842	Delete element
+1524383635546	Rename type 'Test'
+1524395057408	Delete element
+1524395304460	Rename type 'TestSendMessage'
+1524402940240	Delete element
+1524536116666	Move compilation unit
+1524536355393	Rename type 'Manager'
+1524637756868	Rename resource '34.JPG'
+1524638146922	Delete element
+1524638157352	Rename resource '36.JPG'
+1524638411990	Rename package 'com.operation.GUIhelper'
+1524638418692	Move compilation unit
+1524638422567	Move compilation unit
+1524638427804	Move compilation unit
+1524640607053	Rename type 'MainFrameBackPane'
+1524664495084	Rename type 'SelectPanel'
+1524664950741	Rename type 'ChartSelectPanel'
+1524664956996	Delete element
+1524664977898	Rename type 'MyControlChartPanel'
+1524665424901	Delete element
+1524665432309	Rename resource '61c52dbb29cd87db8b2b8bf5779becb1.jpg'
+1524666051004	Rename type 'MyFrame'
+1524668254538	Move compilation unit
+1524668258917	Move compilation unit
+1524670215242	Rename type 'ManagerFrame'
+1524707533280	Delete element
+1524707549763	Copy package
+1524707566245	Delete element
+1524713189170	Rename type 'Operation'
+1524747681601	Rename type 'Operation_info'
+1524748972267	Rename resource '增加.png'
+1524754585324	Move compilation units
+1524754601664	Rename type 'SelectPatient'
+1524754619526	Rename type 'SelectNurse'
+1524754633951	Rename type 'SelectAnesthetist'
+1524756367664	Move folder
+1524813676232	Rename package 'com.operation.client'
+1524815717176	Move compilation unit
+1524816083292	Delete element
+1524880625028	Rename type 'NewPatient'
+1524884784304	Copy compilation unit
+1524885636666	Delete element
+1524885649381	Rename type 'SelectNursePane2'
+1524897139438	Rename type 'DateTable'
+1524897184103	Rename type 'DateTableModel'
+1524899096228	Copy compilation unit
+1524903686090	Copy compilation unit
+1524903982535	Move compilation unit
+1524904146722	Rename type 'SelectNursePane'
+1524909982063	Copy compilation unit
+1524910004353	Rename type 'SelectNursePane2'
+1524911371891	Copy compilation unit
+1524911594665	Delete element
+1524911609649	Copy compilation unit
+1524911774222	Delete element
+1524911786705	Rename type 'SelectAnesthetistPane2'
+1524913384414	Copy compilation unit
+1524913907383	Delete element
+1524913922441	Rename type 'SelectPatientPane2'
+1524914000213	Copy compilation unit
+1524914556635	Copy compilation unit
+1524914568785	Rename type 'SelectPatientPane'
+1524924125391	Copy compilation unit
+1524925693782	Copy compilation unit
+1524925703413	Rename type 'SelectRoomPane'

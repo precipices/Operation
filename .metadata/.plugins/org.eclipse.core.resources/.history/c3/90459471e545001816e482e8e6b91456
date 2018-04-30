@@ -1,0 +1,39 @@
+package com.operation.common;
+
+public class Message {
+	public static final int CHOOSE=1;
+	public static final int ACCEPT=2;
+	public static final int REFUSE=3;
+	public static final int AUTOCHOOSE=4;
+	private String fromId;
+	private String toId;
+	private int messageType;
+	public Message(String fromId, String toId, int messageType) {
+		super();
+		this.fromId = fromId;
+		this.toId = toId;
+		this.messageType = messageType;
+	}
+	public String getFromId() {
+		return fromId;
+	}
+	public void setFromId(String fromId) {
+		this.fromId = fromId;
+	}
+	public String getToId() {
+		return toId;
+	}
+	public void setToId(String toId) {
+		this.toId = toId;
+	}
+	public int getMessageType() {
+		return messageType;
+	}
+	public void setMessageType(int messageType) {
+		this.messageType = messageType;
+	}
+	@Override
+	public String toString() {
+		return "Message [fromId=" + fromId + ", toId=" + toId + ", messageType=" + messageType + "]";
+	}
+}
