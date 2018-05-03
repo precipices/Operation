@@ -22,6 +22,7 @@ public class MainOperationPane extends BackPane{
 	BackPane contentPane=null;
 	public CardLayout operationCard=null;
 	AppointPane appointPane=null;
+	OperationListPane operationListPane=null;
 	public MainOperationPane() {
 		//设置卡片布局
 		operationCard=new CardLayout();
@@ -30,7 +31,7 @@ public class MainOperationPane extends BackPane{
 		this.createMainPane();
 		this.add(contentPane, "手术表");
 		
-		infoPane=new OperationInfoPane();
+		infoPane=new OperationInfoPane(this);
 		this.add(infoPane, "手术编辑");
 		
 		appointPane=new AppointPane(this);
@@ -38,6 +39,10 @@ public class MainOperationPane extends BackPane{
 	}
 	public void showMain() {
 		operationCard.show(this, "手术表");
+	}
+	public void showInfoPane(Operation operation) {
+		infoPane.setOperaion(operation);
+		operationCard.show(this,"手术编辑");
 	}
 	public void showMainWithOperation(Operation operation) {
 		System.out.println(operation);
@@ -63,7 +68,9 @@ public class MainOperationPane extends BackPane{
 				}
 			}
 		});
-		contentPane.add(new BackScrollPane(new OperationListPane(operationCard,this)),BorderLayout.CENTER);
+		operationListPane=new OperationListPane(this);
+		operationListPane.updateOperations();
+		contentPane.add(new BackScrollPane(operationListPane),BorderLayout.CENTER);
 	}
 	
 	

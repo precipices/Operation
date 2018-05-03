@@ -6,10 +6,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
@@ -26,12 +29,10 @@ public class ExistOperation extends BackPane{
 	private JTextField operationName;
 	private JTextField beginDate;
 	private JTextField operationId;
-	CardLayout fatherCard=null;
-	BackPane fatherPane=null;
+	MainOperationPane parentPane=null;
 	Operation operation=null;
-	public ExistOperation(Operation operation, CardLayout fatherCard, BackPane fatherPane) {
-		this.fatherCard=fatherCard;
-		this.fatherPane=fatherPane;
+	public ExistOperation(Operation operation,MainOperationPane parentPane) {
+		this.parentPane=parentPane;
 		this.operation=operation;
 		listener = new ExistOperationListener();
 
@@ -50,12 +51,12 @@ public class ExistOperation extends BackPane{
 		deleteButton.addActionListener(listener);
 		
 
-		JLabel label = new JLabel("手术：");
+		JLabel label = new JLabel("手术ID：");
 //		label.setFont(new Font("宋体", Font.PLAIN, 14));
 		label.setBounds(10, 10, 57, 23);
 		
 		operationId = new JTextField(8);//放手术编号用以标识
-		operationId.setBounds(48, 11, 78, 21);
+		operationId.setBounds(54, 11, 78, 21);
 		operationId.setEnabled(false);
 		operationId.setText(operation.getId());
 
@@ -68,13 +69,13 @@ public class ExistOperation extends BackPane{
 		operationName.setEnabled(false);
 		operationName.setText(operation.getName());
 		
-		JLabel label_pname = new JLabel("病人：");
+		JLabel label_pname = new JLabel("病人ID：");
 		label_pname.setBounds(10, 41, 54, 15);
 		
 		patientName = new JTextField(8);
-		patientName.setBounds(48, 38, 78, 21);
+		patientName.setBounds(54, 38, 78, 21);
 		patientName.setEnabled(false);
-		patientName.setText(operation.getPatientId()+"(待改)");
+		patientName.setText(operation.getPatientId());
 		
 		JLabel label_date = new JLabel("手术日期：");
 		label_date.setBounds(148, 42, 66, 15);
@@ -98,6 +99,7 @@ public class ExistOperation extends BackPane{
 //		FlowLayout f=new FlowLayout();
 //		f.setHgap(20);
 //		this.setLayout(f);
+		this.addMouseListener(new MouseHoverListener(this,operation));
 	}
 	
 	class ExistOperationListener implements ActionListener {//定义监听器类
@@ -105,18 +107,42 @@ public class ExistOperation extends BackPane{
 		public void actionPerformed(ActionEvent a) {
 			if(a.getActionCommand().equals("editButton")) {
 				System.out.println("点击了编辑按扭");
-				fatherCard.show(fatherPane, "手术编辑");
+				parentPane.showInfoPane(operation);
 			}else if(a.getActionCommand().equals("deleteButton")) {
 				System.out.println("点击了删除按扭");
-				
+				JOptionPane.showMessageDialog(ExistOperation.this, "权限不足!");
 			}
 		}
 	}
-	
+	private class MouseHoverListener extends MouseAdapter{
+		private BackPane c=null;
+		private Operation operation=null;
+		public MouseHoverListener(BackPane c,Operation operation) {
+			this.c=c;
+			this.operation=operation;
+		}
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			c.setBackground(null);
+			c.setForeground(Color.BLACK);
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			c.setBackground(Color.red);
+			c.setForeground(Color.YELLOW);
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+//			fatherCard.show(parentPane, "手术编辑");
+			parentPane.showInfoPane(operation);
+		}
+	}
 	public static void main(String[] args) {
 		JFrame f =new BackFrame("test","./imgs/bg2.jpg");
 		f.setLayout(new FlowLayout());
-		f.add(new ExistOperation(new Operation("id", "name", Date.valueOf("1980-1-1"), "roomId", "patientId", "doctorId", "nurseId", "anesthetistId", "doctorRecord", "nurseRecord", "anesthetistRecord"),null,null));
+		f.add(new ExistOperation(new Operation("id", "name", Date.valueOf("1980-1-1"), "roomId", "patientId", "doctorId", "nurseId", "anesthetistId", "doctorRecord", "nurseRecord", "anesthetistRecord"),null));
 		// 设置大小和显示类型
 		f.setBounds(200, 100, 800, 600);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

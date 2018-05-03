@@ -1,0 +1,30 @@
+package com.operation.select;
+
+import java.awt.CardLayout;
+
+import javax.swing.JLabel;
+
+import com.operation.mainframe.InitComponent;
+import com.operation.myComponent.BackPane;
+
+public class RightPane extends BackPane {
+	private static String[] names = { "手术室查询", "病人查询", "医生排班查询", "护士排班查询", "麻醉师排班查询", "手术查询", "与我相关的手术" };
+	private CardLayout card = null;
+
+	public RightPane() {
+		card = new CardLayout();
+		this.setLayout(card);
+		for (int i = 0; i < names.length; i++) {
+			this.add(new JLabel(names[i]), names[i]);
+		}
+		this.add(new SelectRoomPane(),"手术室查询");
+		this.add(new SelectNursePane(), "护士排班查询");
+		this.add(new SelectAnesthetistPane(), "麻醉师排班查询");
+		this.add(new SelectPatientPane(), "病人查询");
+		this.add(new SelectOperationPane(),"手术查询");
+	}
+
+	public CardLayout getCard() {
+		return card;
+	}
+}

@@ -1,7 +1,0 @@
-package com.operation.select;
-
-import com.operation.myComponent.BackPane;
-
-public class RightPane extends BackPane{
-
-}

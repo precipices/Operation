@@ -63,10 +63,10 @@ public class MainFrame extends BackFrame {
 	private CardLayout createCardPanes(JPanel c) {
 		CardLayout card=new CardLayout();
 		c.setLayout(card);
-		mainOperationPane=InitComponent.mainOperationPane;
+		mainOperationPane=new MainOperationPane();
 		c.add(mainOperationPane, "手术");
-		c.add(InitComponent.patientPane,"病人");
-		c.add(InitComponent.mainSelectPane,"查询");
+		c.add(new PatientPane(),"病人");
+		c.add(new MainSelectPane(),"查询");
 		return card;
 	}
 	public MainFrame(RPCHelper helper, Worker worker) {
@@ -75,11 +75,12 @@ public class MainFrame extends BackFrame {
 		this.position = worker.getPosition();
 		this.worker = worker;
 		InitComponent.worker=worker;
-		this.openGetMessagesThread();
-		
 		// 得到RPCHelper
 		this.helper = helper;
 		InitComponent.helper=helper;
+		//打开消息获取线程
+		this.openGetMessagesThread();
+		
 		// 添加窗口关闭监听器
 		this.addWindowListener(new MyWindowListener());
 		// 添加工具条

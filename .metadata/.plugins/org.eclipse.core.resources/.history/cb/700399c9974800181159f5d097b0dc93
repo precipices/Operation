@@ -1,5 +1,0 @@
-package com.operation.select;
-
-public class RightPane extends BackPane{
-
-}

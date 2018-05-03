@@ -139,4 +139,16 @@ public class Operation implements Serializable{
 				v.get(6), v.get(7), v.get(8), v.get(9), v.get(10));
 		return operation;
 	}
+	public Vector<String> toVector(){
+		Vector<String> data=new Vector<String>();
+		data.add(this.getId());
+		data.add(this.getName());
+		data.add(this.getBeginTime()+"");
+		data.add(this.getRoomId());
+		data.add(this.getPatientId());
+		data.add(this.getDoctorId());
+		data.add(this.getNurseId());
+		data.add(this.getAnesthetistId());
+		return data;
+	}
 }

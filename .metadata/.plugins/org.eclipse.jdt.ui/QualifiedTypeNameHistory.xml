@@ -41,9 +41,9 @@
 <fullyQualifiedTypeName name="com.operation.select.DateTable"/>
 <fullyQualifiedTypeName name="java.util.Vector"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
-<fullyQualifiedTypeName name="com.operation.common.Operation"/>
 <fullyQualifiedTypeName name="com.operation.common.Patient"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="com.operation.common.Operation"/>
 <fullyQualifiedTypeName name="com.operation.mainframe.InitComponent"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 </qualifiedTypeNameHistroy>

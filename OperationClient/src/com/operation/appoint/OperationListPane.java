@@ -1,63 +1,47 @@
 package com.operation.appoint;
 
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Date;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 
 import com.operation.common.Operation;
+import com.operation.mainframe.InitComponent;
 import com.operation.myComponent.BackFrame;
 import com.operation.myComponent.BackPane;
 import com.operation.myComponent.BackScrollPane;
 
 public class OperationListPane extends BackPane{
-	Operation opTest=new Operation("id", "name", Date.valueOf("1980-1-1"), "roomId", "patientId", "doctorId", "nurseId", "anesthetistId", "doctorRecord", "nurseRecord", "anesthetistRecord");
+	//Operation opTest=new Operation("id", "name", Date.valueOf("1980-1-1"), "roomId", "patientId", "doctorId", "nurseId", "anesthetistId", "doctorRecord", "nurseRecord", "anesthetistRecord");
 	Vector<ExistOperation> ops=null;
-	CardLayout fatherCard=null;
-	BackPane fatherPane=null;
-	public OperationListPane(CardLayout fatherCard, BackPane fatherPane) {
-		this.fatherCard=fatherCard;
-		this.fatherPane=fatherPane;
+	MainOperationPane parentPane=null;
+	GridLayout grid=new GridLayout(10,1);
+	public OperationListPane( MainOperationPane parentPane) {
+		this.parentPane=parentPane;
 		this.setLayout(new GridLayout(10,1));
-		for(int i=0;i<10;i++) {
-			ExistOperation p=new ExistOperation(opTest,fatherCard,fatherPane);
-			p.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-			p.addMouseListener(new MouseHoverListener(p));
-			this.add(p);
-		}
+		
 	}
-	private class MouseHoverListener extends MouseAdapter{
-		private BackPane c=null;
-		public MouseHoverListener(BackPane c) {
-			this.c=c;
+	public void updateOperations() {
+		if (InitComponent.helper == null) {
+			JOptionPane.showMessageDialog(this, "未连接服务器!");
+			return;
 		}
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			c.setBackground(null);
-			c.setForeground(Color.BLACK);
-		}
-		
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			c.setBackground(Color.red);
-			c.setForeground(Color.YELLOW);
-		}
-		
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			fatherCard.show(fatherPane, "手术编辑");
+		this.removeAll();
+		Vector<Operation> operations=InitComponent.helper.selectWorkerAllOperations(InitComponent.worker.getId());
+		if(operations.size()>10)
+			grid.setRows(operations.size());
+		for(int i=0;i<operations.size();i++) {
+			ExistOperation p=new ExistOperation(operations.get(i),parentPane);
+			p.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+			this.add(p);
 		}
 	}
 	public static void main(String[] args) {
 		JFrame f =new BackFrame("test","./imgs/bg2.jpg");
-		JScrollPane jsp = new BackScrollPane(new OperationListPane(null	,null));
+		JScrollPane jsp = new BackScrollPane(new OperationListPane(null));
 		jsp.getVerticalScrollBar().setUnitIncrement(20);
 		jsp.setWheelScrollingEnabled(true);
 		f.add(jsp);

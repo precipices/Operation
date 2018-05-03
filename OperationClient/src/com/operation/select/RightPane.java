@@ -14,13 +14,13 @@ public class RightPane extends BackPane {
 	public RightPane() {
 		card = new CardLayout();
 		this.setLayout(card);
-		for (int i = 0; i < names.length; i++) {
-			this.add(new JLabel(names[i]), names[i]);
-		}
 		this.add(new SelectRoomPane(),"手术室查询");
 		this.add(new SelectNursePane(), "护士排班查询");
+		this.add(new SelectDoctorPane(), "医生排班查询");
 		this.add(new SelectAnesthetistPane(), "麻醉师排班查询");
 		this.add(new SelectPatientPane(), "病人查询");
+		this.add(new SelectOperationPane(),"手术查询");
+		this.add(new SelectMyOperationPane(),"与我相关的手术");
 	}
 
 	public CardLayout getCard() {

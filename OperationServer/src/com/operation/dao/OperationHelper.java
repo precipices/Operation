@@ -33,6 +33,22 @@ public class OperationHelper {
 		Operation operation = Operation.VectorToOperation(data.get(0));
 		return operation;
 	}
+	
+	// 根据name查手术,返回null表示name不存在
+	public Vector<Operation> selectOperationByName(String name) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where name=?",
+				new String[] { name });
+		if (data.size() == 0)
+			return null;
+		Vector<Operation> operations = new Vector<Operation>();
+		Operation operation = null;
+		for (Vector e : data) {
+			operation = Operation.VectorToOperation(e);
+			operations.add(operation);
+		}
+		return operations;
+	}
 
 	// 某天的所有手术,返回null表示当天没有手术
 	public Vector<Operation> selectOperationByDate(Date date) {

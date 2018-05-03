@@ -1,7 +1,0 @@
-package com.operation.manager;
-
-import javax.swing.JPanel;
-
-public class DeleteWorkerPane extends JPanel {
-
-}

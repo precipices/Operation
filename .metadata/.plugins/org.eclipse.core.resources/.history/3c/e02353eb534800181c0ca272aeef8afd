@@ -1,9 +1,0 @@
-package com.operation.myComponent;
-
-import javax.swing.JButton;
-
-public class BackButton extends JButton {
-	public BackButton() {
-		this.setOpaque(false);
-	}
-}

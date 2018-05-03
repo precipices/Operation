@@ -1,0 +1,203 @@
+package com.operation.appoint;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+
+import com.operation.common.Operation;
+import com.operation.common.Patient;
+import com.operation.common.Worker;
+import com.operation.mainframe.InitComponent;
+import com.operation.myComponent.BackButton;
+import com.operation.myComponent.BackFrame;
+import com.operation.myComponent.BackPane;
+import com.operation.myComponent.BackScrollPane;
+
+public class OperationInfoPane extends BackPane {
+	private String[] jlNames = new String[] { 
+			"手术　ID:　　", 
+			"手术名称:　　", 
+			"手术日期:　　", 
+			"手术　室:　　",
+			"病人　ID:　　", 
+			"医生　ID:　　",
+			"护士　ID:　　", 
+			"麻醉师ID:　　",
+			"医生　手术记录:",
+			"护士　手术记录:",
+			"麻醉师手术记录:" };
+	private JLabel[] jls = new JLabel[jlNames.length];
+	MainOperationPane parentPane;
+	public CardLayout card = null;
+
+	public OperationInfoPane(MainOperationPane parentPane) {
+		System.out.println("创建了一个预约面板");
+		this.parentPane = parentPane;
+		this.setLayout(new BorderLayout());
+		this.add(new BackScrollPane(createMainPane()));
+	}
+
+	
+	JTextField operationId,operationName,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId;
+	JTextArea doctorRecord,nurseRecord,anesthetistRecord;
+	JButton submit, back;
+	String record1,record2,record3;
+	public void setOperaion(Operation operation) {
+		operationId.setText(operation.getId());
+		operationName.setText(operation.getName());
+		beginTime.setText(operation.getBeginTime()+"");
+		roomId.setText(operation.getRoomId());
+		patientId.setText(operation.getPatientId());
+		doctorId.setText(operation.getDoctorId());
+		nurseId.setText(operation.getNurseId());
+		anesthetistId.setText(operation.getAnesthetistId());
+		doctorRecord.setText(operation.getDoctorRecord());
+		nurseRecord.setText(operation.getNurseRecord());
+		anesthetistRecord.setText(operation.getAnesthetistRecord());
+		record1=doctorRecord.getText();
+		record2=nurseRecord.getText();
+		record3=anesthetistRecord.getText();
+	}
+	private BackPane createMainPane() {
+		BackPane mainPane = new BackPane();
+		
+		for (int i = 0; i < jlNames.length; i++) {
+			jls[i] = new JLabel(jlNames[i]);
+		}
+		operationId=new JTextField(10);operationId.setEnabled(false);
+		operationName=new JTextField(10);operationName.setEnabled(false);
+		beginTime = new JTextField(10);beginTime.setEnabled(false);
+		roomId = new JTextField(10);roomId.setEnabled(false);
+		patientId = new JTextField(10);patientId.setEnabled(false);
+		doctorId = new JTextField(10);doctorId.setEnabled(false);
+		nurseId = new JTextField(10);nurseId.setEnabled(false);
+		anesthetistId = new JTextField(10);anesthetistId.setEnabled(false);
+		doctorRecord=new JTextArea(5,20);
+		nurseRecord=new JTextArea(5,20);
+		anesthetistRecord=new JTextArea(5,20);
+		submit = new BackButton("提交");
+		back = new BackButton("返回");
+		
+		//布局
+		BackPane jp1=new BackPane();
+		BackPane jp2=new BackPane();
+		BackPane jp3=new BackPane();
+		BackPane jp4=new BackPane();
+		BackPane jp5=new BackPane();
+		BackPane jp6=new BackPane();
+		BackPane jp7=new BackPane();
+		BackPane jp8=new BackPane();
+		BackPane jp9=new BackPane();
+		BackPane jp10=new BackPane();
+		BackPane jp11=new BackPane();
+		BackPane jp12=new BackPane();
+		BackPane b1=new BackPane();
+		b1.setLayout(new BorderLayout());
+		BackPane b2=new BackPane();
+		b2.setLayout(new BorderLayout());
+		BackPane b3=new BackPane();
+		b3.setLayout(new BorderLayout());
+		BackPane b4=new BackPane();
+		b4.setLayout(new BorderLayout());
+
+		BackPane p1=new BackPane();
+		p1.setLayout(new BorderLayout());
+		BackPane p2=new BackPane();
+		p2.setLayout(new BorderLayout());
+		// 添加到面板上
+		int i = 0;
+		
+		jp1.add(jls[i++]);
+		jp1.add(operationId);
+		jp2.add(jls[i++]);
+		jp2.add(operationName);
+		jp3.add(jls[i++]);
+		jp3.add(beginTime);
+		b1.add(jp1,BorderLayout.NORTH);
+		b1.add(jp2,BorderLayout.CENTER);
+		b1.add(jp3,BorderLayout.SOUTH);
+		jp4.add(jls[i++]);
+		jp4.add(roomId);
+		jp5.add(jls[i++]);
+		jp5.add(patientId);
+		jp6.add(jls[i++]);
+		jp6.add(doctorId);
+		b2.add(jp4,BorderLayout.NORTH);
+		b2.add(jp5,BorderLayout.CENTER);
+		b2.add(jp6,BorderLayout.SOUTH);
+		jp7.add(jls[i++]);
+		jp7.add(nurseId);
+		jp8.add(jls[i++]);
+		jp8.add(anesthetistId);
+		jls[i].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		jp9.add(jls[i++]);
+		jp9.add(doctorRecord);
+		b3.add(jp7,BorderLayout.NORTH);
+		b3.add(jp8,BorderLayout.CENTER);
+		b3.add(jp9,BorderLayout.SOUTH);
+		jls[i].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		jp10.add(jls[i++]);
+		jp10.add(nurseRecord);
+		jls[i].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		jp11.add(jls[i++]);
+		jp11.add(anesthetistRecord);
+		jp12.add(submit);
+		jp12.add(back);
+		b4.add(jp10,BorderLayout.NORTH);
+		b4.add(jp11,BorderLayout.CENTER);
+		b4.add(jp12,BorderLayout.SOUTH);
+
+		p1.add(b1,BorderLayout.NORTH);
+		p1.add(b2,BorderLayout.CENTER);
+		p1.add(b3,BorderLayout.SOUTH);
+		p2.add(p1,BorderLayout.NORTH);
+		p2.add(b4,BorderLayout.CENTER);
+		mainPane.add(p2);
+		addSelectListener();
+		return mainPane;
+	}
+
+
+	private void addSelectListener() {
+		submit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(InitComponent.helper==null) {
+					JOptionPane.showMessageDialog(OperationInfoPane.this, "未连接服务器!");
+					return;
+				}
+				if(record1.equals(arg0))
+			}
+		});
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("点击了返回按扭");
+				parentPane.showMain();
+			}
+		});
+	}
+
+	public static void main(String[] args) {
+		JFrame f = new BackFrame("test", "./imgs/bg2.jpg");
+		// f.setLayout(new FlowLayout());
+		f.add(new OperationInfoPane(null));
+		// 设置大小和显示类型
+		f.setBounds(200, 100, 800, 600);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+
+}

@@ -44,6 +44,21 @@ public class WorkerHelper {
 		return workers;
 	}
 
+	// 查询某天有空的医生，返回null则表示该天没有有空的医生
+	public Vector<Worker> selectDoctorsByDate(Date date) {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,password,name,sex,birth,position,call,section from worker where position = '医生' and id not in (select nurseId from operation where beginTime = ?)",
+				new String[] { date.toString() });
+		if (data.size() == 0)
+			return null;
+		Vector<Worker> workers = new Vector<Worker>();
+		Worker worker = null;
+		for (Vector e : data) {
+			worker = Worker.VectorToWorker(e);
+			workers.add(worker);
+		}
+		return workers;
+	}
 	// 查询某天有空的护士，返回null则表示该天没有有空的护士
 	public Vector<Worker> selectNursesByDate(Date date) {
 		Vector<Vector<String>> data = new SqlHelper().query(

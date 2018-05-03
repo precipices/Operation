@@ -1,315 +1,229 @@
 package com.operation.appoint;
 
-import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
 
+import com.operation.common.Operation;
+import com.operation.common.Patient;
+import com.operation.common.Worker;
+import com.operation.mainframe.InitComponent;
+import com.operation.myComponent.BackButton;
 import com.operation.myComponent.BackFrame;
 import com.operation.myComponent.BackPane;
-import com.operation.select.SelectAnesthetistPane;
-import com.operation.select.SelectNursePane;
-import com.operation.select.SelectPatientPane;
+import com.operation.myComponent.BackScrollPane;
 
-//未建引入数据的参数，也未写set把信息扔进field组件并显示
-//没能运行这个class，所以也不知道点了选择键能不能成功到相应页面
 public class OperationInfoPane extends BackPane {
+	private String[] jlNames = new String[] { 
+			"手术　ID:　　", 
+			"手术名称:　　", 
+			"手术日期:　　", 
+			"手术　室:　　",
+			"病人　ID:　　", 
+			"医生　ID:　　",
+			"护士　ID:　　", 
+			"麻醉师ID:　　",
+			"医生　手术记录:",
+			"护士　手术记录:",
+			"麻醉师手术记录:" };
+	private JLabel[] jls = new JLabel[jlNames.length];
+	MainOperationPane parentPane;
+	public CardLayout card = null;
 
-	private JTextField textField_patient;
-	private JTextField textField_nurse;
-	private JTextField textField_anesthetist;
-	private Operation_infoListener listener;
-	private JButton button_select_patient;
-	private JButton button_select_nurse;
-	private JButton button_select_anesthetist;
-	private JButton button_save;
-	private JComboBox cb_select_name;
-	private String select_name;
-	private JComboBox cb_select_year;
-	private String select_year;
-	private JComboBox cb_select_month;
-	private String select_month;
-	private JComboBox cb_select_day;
-	private String select_day;
-	private JComboBox cb_select_stime;
-	private String select_stime;
-	private JComboBox cb_select_room;
-	private String select_room;
-
-	public BackPane panel_acenter;
-	public BackPane j;
-	private JLabel label_dr;
-	private JTextField textField_dr;
-	private JLabel label_nr;
-	private JTextField textField_nr;
-	private JLabel label_ar;
-	private JTextField textField_ar;
-
-	public OperationInfoPane() {
-		listener = new Operation_infoListener();
-		initialize();
+	public OperationInfoPane(MainOperationPane parentPane) {
+		System.out.println("创建了一个预约面板");
+		this.parentPane = parentPane;
+		this.setLayout(new BorderLayout());
+		this.add(new BackScrollPane(createMainPane()));
 	}
 
-	class Operation_infoListener implements ActionListener {// 定义监听器类
-		@Override
-		public void actionPerformed(ActionEvent a) {
-			if (a.getActionCommand().equals("button_select_patient")) {
-				System.out.println("点击了病人选择按扭");
-				j = panel_acenter;
-				remove(panel_acenter);
-				panel_acenter = new SelectPatientPane();
-				panel_acenter.setBounds(0, 0, 580, 500);
-				add(panel_acenter);
-				validate();// 更新布局
-				repaint();// 重绘画面
-				// 接受并显示回传信息后，继续执行代码
-				/*
-				 * JOptionPane.showMessageDialog(null, "恢复");
-				 * 
-				 * remove(panel_center); panel_center = j; panel_center.setBounds(0, 0, 580,
-				 * 500); add(panel_center); validate();//更新布局 repaint();//重绘画面
-				 */
-
-			} else if (a.getActionCommand().equals("button_select_nurse")) {
-				System.out.println("点击了护士选择按扭");
-				j = panel_acenter;
-				remove(panel_acenter);
-				panel_acenter = new SelectNursePane();
-				panel_acenter.setBounds(0, 0, 580, 500);
-				add(panel_acenter);
-				validate();// 更新布局
-				repaint();// 重绘画面
-
-				/*
-				 * JOptionPane.showMessageDialog(null, "恢复");
-				 * 
-				 * remove(panel_center); panel_center = j; panel_center.setBounds(0, 0, 580,
-				 * 500); add(panel_center); validate();//更新布局 repaint();//重绘画面
-				 */
-
-			} else if (a.getActionCommand().equals("button_select_anesthetist")) {
-				System.out.println("点击了麻醉师选择按扭");
-				j = panel_acenter;
-				remove(panel_acenter);
-				panel_acenter = new SelectAnesthetistPane();
-				panel_acenter.setBounds(0, 0, 580, 500);
-				add(panel_acenter);
-				validate();// 更新布局
-				repaint();// 重绘画面
-
-				/*
-				 * JOptionPane.showMessageDialog(null, "恢复");
-				 * 
-				 * remove(panel_center); panel_center = j; panel_center.setBounds(0, 0, 580,
-				 * 500); add(panel_center); validate(); repaint();
-				 */
-			} else if (a.getActionCommand().equals("button_save")) {
-				System.out.println("点击了保存按扭");
-				// 录入并保存信息
-				JOptionPane.showMessageDialog(null, "保存成功");
-
-				select_name = (String) cb_select_name.getSelectedItem();
-				System.out.println("手术类型选择了" + select_name);
-				select_year = (String) cb_select_year.getSelectedItem();
-				System.out.println("年：" + select_year);
-				select_month = (String) cb_select_month.getSelectedItem();
-				System.out.println("月：" + select_month);
-				select_day = (String) cb_select_day.getSelectedItem();
-				System.out.println("日：" + select_day);
-				select_stime = (String) cb_select_stime.getSelectedItem();
-				System.out.println("手术时间选择了：" + select_stime);
-				select_room = (String) cb_select_room.getSelectedItem();
-				System.out.println("手术室选择了：" + select_room);
-
-				// 保存后返回上一界面
-			}
+	
+	JTextField operationId,operationName,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId;
+	JTextArea doctorRecord,nurseRecord,anesthetistRecord;
+	JButton submit, back;
+	String record1,record2,record3;
+	Operation operation;
+	public void setOperaion(Operation operation) {
+		this.operation=operation;
+		operationId.setText(operation.getId());
+		operationName.setText(operation.getName());
+		beginTime.setText(operation.getBeginTime()+"");
+		roomId.setText(operation.getRoomId());
+		patientId.setText(operation.getPatientId());
+		doctorId.setText(operation.getDoctorId());
+		nurseId.setText(operation.getNurseId());
+		anesthetistId.setText(operation.getAnesthetistId());
+		doctorRecord.setText(operation.getDoctorRecord());
+		nurseRecord.setText(operation.getNurseRecord());
+		anesthetistRecord.setText(operation.getAnesthetistRecord());
+		record1=doctorRecord.getText();
+		record2=nurseRecord.getText();
+		record3=anesthetistRecord.getText();
+	}
+	private BackPane createMainPane() {
+		BackPane mainPane = new BackPane();
+		
+		for (int i = 0; i < jlNames.length; i++) {
+			jls[i] = new JLabel(jlNames[i]);
 		}
+		operationId=new JTextField(10);operationId.setEnabled(false);
+		operationName=new JTextField(10);operationName.setEnabled(false);
+		beginTime = new JTextField(10);beginTime.setEnabled(false);
+		roomId = new JTextField(10);roomId.setEnabled(false);
+		patientId = new JTextField(10);patientId.setEnabled(false);
+		doctorId = new JTextField(10);doctorId.setEnabled(false);
+		nurseId = new JTextField(10);nurseId.setEnabled(false);
+		anesthetistId = new JTextField(10);anesthetistId.setEnabled(false);
+		doctorRecord=new JTextArea(5,20);
+		nurseRecord=new JTextArea(5,20);
+		anesthetistRecord=new JTextArea(5,20);
+		submit = new BackButton("提交");
+		back = new BackButton("返回");
+		//
+		if(!InitComponent.worker.getPosition().equals("医生")) {
+			doctorRecord.setEnabled(false);
+		}
+		//布局
+		BackPane jp1=new BackPane();
+		BackPane jp2=new BackPane();
+		BackPane jp3=new BackPane();
+		BackPane jp4=new BackPane();
+		BackPane jp5=new BackPane();
+		BackPane jp6=new BackPane();
+		BackPane jp7=new BackPane();
+		BackPane jp8=new BackPane();
+		BackPane jp9=new BackPane();
+		BackPane jp10=new BackPane();
+		BackPane jp11=new BackPane();
+		BackPane jp12=new BackPane();
+		BackPane b1=new BackPane();
+		b1.setLayout(new BorderLayout());
+		BackPane b2=new BackPane();
+		b2.setLayout(new BorderLayout());
+		BackPane b3=new BackPane();
+		b3.setLayout(new BorderLayout());
+		BackPane b4=new BackPane();
+		b4.setLayout(new BorderLayout());
+
+		BackPane p1=new BackPane();
+		p1.setLayout(new BorderLayout());
+		BackPane p2=new BackPane();
+		p2.setLayout(new BorderLayout());
+		// 添加到面板上
+		int i = 0;
+		
+		jp1.add(jls[i++]);
+		jp1.add(operationId);
+		jp2.add(jls[i++]);
+		jp2.add(operationName);
+		jp3.add(jls[i++]);
+		jp3.add(beginTime);
+		b1.add(jp1,BorderLayout.NORTH);
+		b1.add(jp2,BorderLayout.CENTER);
+		b1.add(jp3,BorderLayout.SOUTH);
+		jp4.add(jls[i++]);
+		jp4.add(roomId);
+		jp5.add(jls[i++]);
+		jp5.add(patientId);
+		jp6.add(jls[i++]);
+		jp6.add(doctorId);
+		b2.add(jp4,BorderLayout.NORTH);
+		b2.add(jp5,BorderLayout.CENTER);
+		b2.add(jp6,BorderLayout.SOUTH);
+		jp7.add(jls[i++]);
+		jp7.add(nurseId);
+		jp8.add(jls[i++]);
+		jp8.add(anesthetistId);
+		jls[i].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		jp9.add(jls[i++]);
+		jp9.add(doctorRecord);
+		b3.add(jp7,BorderLayout.NORTH);
+		b3.add(jp8,BorderLayout.CENTER);
+		b3.add(jp9,BorderLayout.SOUTH);
+		jls[i].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		jp10.add(jls[i++]);
+		jp10.add(nurseRecord);
+		jls[i].setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		jp11.add(jls[i++]);
+		jp11.add(anesthetistRecord);
+		jp12.add(submit);
+		jp12.add(back);
+		b4.add(jp10,BorderLayout.NORTH);
+		b4.add(jp11,BorderLayout.CENTER);
+		b4.add(jp12,BorderLayout.SOUTH);
+
+		p1.add(b1,BorderLayout.NORTH);
+		p1.add(b2,BorderLayout.CENTER);
+		p1.add(b3,BorderLayout.SOUTH);
+		p2.add(p1,BorderLayout.NORTH);
+		p2.add(b4,BorderLayout.CENTER);
+		mainPane.add(p2);
+		addSelectListener();
+		return mainPane;
 	}
 
-	private void initialize() {
-		this.setLayout(null);
 
-		panel_acenter = new BackPane();
-		panel_acenter.setBounds(10, 10, 580, 700);
-		this.add(panel_acenter);
-		panel_acenter.setLayout(null);
-		panel_acenter.setVisible(true);
+	private void addSelectListener() {
+		submit.addActionListener(new ActionListener() {
 
-		JLabel label_title = new JLabel("手术预约");
-		label_title.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_title.setBounds(100, 4, 109, 15);
-		panel_acenter.add(label_title);
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(InitComponent.helper==null) {
+					JOptionPane.showMessageDialog(OperationInfoPane.this, "未连接服务器!");
+					return;
+				}
+				boolean flag=false;
+				if(!record1.equals(doctorRecord.getText())) {
+					InitComponent.helper.updateDoctorRecordToOperation(operation.getId(), doctorRecord.getText());
+					operation.setDoctorRecord(doctorRecord.getText());
+					flag=true;
+				}
+				if(!record2.equals(nurseRecord.getText())) {
+					InitComponent.helper.updateDoctorRecordToOperation(operation.getId(), nurseRecord.getText());
+					operation.setNurseRecord(nurseRecord.getText());
+					flag=true;
+				}
+				if(!record3.equals(anesthetistRecord.getText())) {
+					InitComponent.helper.updateDoctorRecordToOperation(operation.getId(), anesthetistRecord.getText());
+					operation.setAnesthetistRecord(anesthetistRecord.getText());
+					flag=true;
+				}
+				if(flag) {
+					JOptionPane.showMessageDialog(OperationInfoPane.this, "手术记录添加成功!");
+					parentPane.showMain();
+				}else {
+					JOptionPane.showMessageDialog(OperationInfoPane.this, "未添加手术记录!");
+				}
+			}
+		});
+		back.addActionListener(new ActionListener() {
 
-		JLabel label_patient = new JLabel("病人：");
-		label_patient.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_patient.setBounds(45, 29, 87, 18);
-		panel_acenter.add(label_patient);
-
-		button_select_patient = new JButton();
-		button_select_patient.setText("病人选择");
-		button_select_patient.setBounds(142, 27, 110, 23);
-		panel_acenter.add(button_select_patient);
-		button_select_patient.setActionCommand("button_select_patient");
-		button_select_patient.addActionListener(listener);
-
-		textField_patient = new JTextField();
-		textField_patient.setColumns(10);
-		textField_patient.setBounds(142, 60, 235, 21);
-		panel_acenter.add(textField_patient);
-
-		JLabel label_name = new JLabel("手术名字：");
-		label_name.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_name.setBounds(45, 92, 87, 18);
-		panel_acenter.add(label_name);
-
-		String[] name = { "----请选择手术名字----", "第一种", "第二种", "第三种", "第四种" };
-		cb_select_name = new JComboBox(name);
-		cb_select_name.setBounds(142, 91, 235, 21);
-		panel_acenter.add(cb_select_name);
-
-		JLabel label_date = new JLabel("手术日期：");
-		label_date.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_date.setBounds(45, 120, 87, 18);
-		panel_acenter.add(label_date);
-
-		JLabel label_year = new JLabel("年：");
-		label_year.setBounds(142, 124, 29, 15);
-		panel_acenter.add(label_year);
-
-		String[] year = { "2018", "2019", "2020", "2021", "2022" };
-		cb_select_year = new JComboBox(year);
-		cb_select_year.setBounds(167, 119, 56, 21);
-		panel_acenter.add(cb_select_year);
-
-		JLabel label_month = new JLabel("月：");
-		label_month.setBounds(233, 123, 29, 15);
-		panel_acenter.add(label_month);
-
-		String[] month = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
-		cb_select_month = new JComboBox(month);
-		cb_select_month.setBounds(256, 119, 56, 21);
-		panel_acenter.add(cb_select_month);
-
-		JLabel label_day = new JLabel("日：");
-		label_day.setBounds(325, 123, 29, 15);
-		panel_acenter.add(label_day);
-
-		String[] day = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17",
-				"18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
-		cb_select_day = new JComboBox(day);
-		cb_select_day.setBounds(347, 119, 56, 21);
-		panel_acenter.add(cb_select_day);
-
-		JLabel label_time = new JLabel("手术时间：");
-		label_time.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_time.setBounds(45, 148, 87, 18);
-		panel_acenter.add(label_time);
-
-		String[] time = { "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00",
-				"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00",
-				"21:00", "22:00", "23:00" };
-
-		cb_select_stime = new JComboBox(time);
-		cb_select_stime.setBounds(142, 147, 113, 21);
-		panel_acenter.add(cb_select_stime);
-
-		JLabel label_room = new JLabel("手术室：");
-		label_room.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_room.setBounds(45, 178, 87, 18);
-		panel_acenter.add(label_room);
-
-		String[] room = { "1号", "2号", "3号", "4号", "5号", "6号", "7号", "8号", "9号", "10号", "11号", "12号", "13号", "14号",
-				"15号" };
-
-		cb_select_room = new JComboBox(room);
-		cb_select_room.setBounds(142, 177, 113, 21);
-		panel_acenter.add(cb_select_room);
-
-		JLabel label_nurse = new JLabel("护士：");
-		label_nurse.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_nurse.setBounds(45, 206, 87, 18);
-		panel_acenter.add(label_nurse);
-
-		button_select_nurse = new JButton("护士选择");
-		button_select_nurse.setBounds(142, 204, 110, 23);
-		panel_acenter.add(button_select_nurse);
-		button_select_nurse.setActionCommand("button_select_nurse");
-		button_select_nurse.addActionListener(listener);
-
-		textField_nurse = new JTextField();
-		textField_nurse.setBounds(142, 229, 235, 21);
-		panel_acenter.add(textField_nurse);
-		textField_nurse.setColumns(10);
-
-		JLabel label_anesthetist = new JLabel("麻醉师：");
-		label_anesthetist.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_anesthetist.setBounds(45, 262, 87, 18);
-		panel_acenter.add(label_anesthetist);
-
-		button_select_anesthetist = new JButton("麻醉师选择");
-		button_select_anesthetist.setBounds(142, 260, 110, 23);
-		panel_acenter.add(button_select_anesthetist);
-		button_select_anesthetist.setActionCommand("button_select_anesthetist");
-		button_select_anesthetist.addActionListener(listener);
-
-		textField_anesthetist = new JTextField();
-		textField_anesthetist.setColumns(10);
-		textField_anesthetist.setBounds(142, 287, 235, 21);
-		panel_acenter.add(textField_anesthetist);
-
-		label_dr = new JLabel("医生手术记录：");
-		label_dr.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_dr.setBounds(45, 346, 109, 18);
-		panel_acenter.add(label_dr);
-
-		textField_dr = new JTextField();
-		textField_dr.setColumns(10);
-		textField_dr.setBounds(176, 345, 348, 70);
-		panel_acenter.add(textField_dr);
-
-		label_nr = new JLabel("护士手术记录：");
-		label_nr.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_nr.setBounds(45, 426, 109, 18);
-		panel_acenter.add(label_nr);
-
-		textField_nr = new JTextField();
-		textField_nr.setColumns(10);
-		textField_nr.setBounds(176, 425, 348, 70);
-		panel_acenter.add(textField_nr);
-
-		label_ar = new JLabel("麻醉师手术记录：");
-		label_ar.setFont(new Font("宋体", Font.PLAIN, 15));
-		label_ar.setBounds(45, 506, 126, 18);
-		panel_acenter.add(label_ar);
-
-		textField_ar = new JTextField();
-		textField_ar.setColumns(10);
-		textField_ar.setBounds(176, 505, 348, 70);
-		panel_acenter.add(textField_ar);
-
-		button_save = new JButton("保存");
-		button_save.setBounds(142, 600, 93, 23);
-		panel_acenter.add(button_save);
-		button_save.setActionCommand("button_save");
-		button_save.addActionListener(listener);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("点击了返回按扭");
+				parentPane.showMain();
+			}
+		});
 	}
 
 	public static void main(String[] args) {
 		JFrame f = new BackFrame("test", "./imgs/bg2.jpg");
-		// JScrollPane jsp = new BackScrollPane( new LeftPane(null));
-		// jsp.getVerticalScrollBar().setUnitIncrement(20);
-		// jsp.setWheelScrollingEnabled(true);
 		// f.setLayout(new FlowLayout());
-		f.add(new OperationInfoPane());
+		f.add(new OperationInfoPane(null));
 		// 设置大小和显示类型
 		f.setBounds(200, 100, 800, 600);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
+
 }
