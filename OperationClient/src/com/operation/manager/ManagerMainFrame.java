@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,6 +51,8 @@ public class ManagerMainFrame extends BackFrame{
 		
 		this.add(centerPanel);
 		
+		this.addWindowListener(new MyWindowListener());
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(200, 100, 800, 600);
 		this.setVisible(true);
@@ -73,5 +77,21 @@ public class ManagerMainFrame extends BackFrame{
 //		worker = helper.selectWorkerById("w0000");
 //		InitComponent.initClient();
 		new ManagerMainFrame(helper);
+	}
+	class MyWindowListener extends WindowAdapter {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			super.windowClosing(e);
+			try {
+				helper.close();
+				System.out.println("关闭客户端");
+
+			} catch (Exception e2) {
+				System.out.println(e2 + "服务器已关闭！");
+				System.exit(0);
+			}
+		}
+
 	}
 }

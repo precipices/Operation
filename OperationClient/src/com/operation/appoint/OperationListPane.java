@@ -24,6 +24,7 @@ public class OperationListPane extends BackPane{
 		this.setLayout(new GridLayout(10,1));
 		
 	}
+	//刷新手术列表
 	public void updateOperations() {
 		if (InitComponent.helper == null) {
 			JOptionPane.showMessageDialog(this, "未连接服务器!");

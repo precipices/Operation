@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -125,7 +126,10 @@ public class SelectPatientPane1 extends BackPane {
 					if (InitComponent.helper == null) {
 						JOptionPane.showMessageDialog(SelectPatientPane1.this, "未连接服务器!");
 					} else {
-						Vector<Patient> patients = InitComponent.helper.selectAllPatients();
+						//从服务器获取数据
+						Date begin=parentPane.getDate();
+						System.out.println("时间:"+begin);
+						Vector<Patient> patients = InitComponent.helper.selectPatientsByDate(begin);
 						SelectPatientPane1.this.setRowData(patients);
 					}
 				} else if (selectType.equals("按姓名查询")) {
@@ -181,7 +185,18 @@ public class SelectPatientPane1 extends BackPane {
 			}
 		});
 	}
-
+	public void getData() {
+		if (InitComponent.helper == null) {
+			JOptionPane.showMessageDialog(SelectPatientPane1.this, "未连接服务器!");
+			return;
+		}
+		//从服务器获取数据
+		Date begin=parentPane.getDate();
+		System.out.println("时间:"+begin);
+		Vector<Patient> patients = InitComponent.helper.selectPatientsByDate(begin);
+		if(patients!=null&&patients.size()!=0)
+		this.setRowData(patients);
+	}
 	public Vector<String> getColumnNames() {
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("ID");

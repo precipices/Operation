@@ -11,7 +11,7 @@ public class OperationHelper {
 	// 查询所有手术,返回null表示没有手术
 	public Vector<Operation> selectAllOperations() {
 		Vector<Vector<String>> data = new SqlHelper().query(
-				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation");
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation order by beginTime desc");
 		if (data.size() == 0)
 			return null;
 		Vector<Operation> operations = new Vector<Operation>();
@@ -33,7 +33,7 @@ public class OperationHelper {
 		Operation operation = Operation.VectorToOperation(data.get(0));
 		return operation;
 	}
-	
+
 	// 根据name查手术,返回null表示name不存在
 	public Vector<Operation> selectOperationByName(String name) {
 		Vector<Vector<String>> data = new SqlHelper().query(
@@ -101,16 +101,21 @@ public class OperationHelper {
 	// 查某员工参与的全部手术,返回null表示员工没有手术
 	public Vector<Operation> selectWorkerAllOperations(String workerId) {
 		Vector<Vector<String>> data = new SqlHelper().query(
-				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where doctorId = ? or nurseId=? or anesthetistId=?",
+				"select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where doctorId = ? or nurseId=? or anesthetistId=? order by beginTime desc",
 				new String[] { workerId, workerId, workerId });
 		if (data.size() == 0)
 			return null;
 		Vector<Operation> operations = new Vector<Operation>();
 		Operation operation = null;
-		for (Vector e : data) {
+		for(int i=0;i<data.size();i++) {
+			Vector e=data.get(i);
 			operation = Operation.VectorToOperation(e);
 			operations.add(operation);
 		}
+//		for (Vector e : data) {
+//			operation = Operation.VectorToOperation(e);
+//			operations.add(operation);
+//		}
 		return operations;
 	}
 
@@ -134,10 +139,11 @@ public class OperationHelper {
 			return null;
 		Vector<Operation> operations = new Vector<Operation>();
 		Operation operation = null;
-		for (Vector e : data) {
+		for (Vector<String> e : data) {
 			operation = Operation.VectorToOperation(e);
 			operations.add(operation);
 		}
+		System.out.println("operations=" + operations);
 		return operations;
 	}
 
@@ -166,57 +172,55 @@ public class OperationHelper {
 
 	// 添加或修改参与手术的医生,返回false表示修改失败
 	public boolean updateDoctorToOperation(String id, String doctorId) {
-		Worker worker=new WorkerHelper().selectWorkerById(doctorId);
-		if(!worker.getPosition().equals("医生"))
+		Worker worker = new WorkerHelper().selectWorkerById(doctorId);
+		if (!worker.getPosition().equals("医生"))
 			return false;
-		return new SqlHelper().update(
-				"update operation set doctorId = ? where id = ?",
-				new String[] {doctorId,id});
+		return new SqlHelper().update("update operation set doctorId = ? where id = ?", new String[] { doctorId, id });
 	}
+
 	// 添加或修改参与手术的护士,返回false表示修改失败
 	public boolean updateNurseToOperation(String id, String nurseId) {
-		Worker worker=new WorkerHelper().selectWorkerById(nurseId);
-		if(!worker.getPosition().equals("护士"))
+		Worker worker = new WorkerHelper().selectWorkerById(nurseId);
+		if (!worker.getPosition().equals("护士"))
 			return false;
-		return new SqlHelper().update(
-				"update operation set nurseId = ? where id = ?",
-				new String[] {nurseId,id});
+		return new SqlHelper().update("update operation set nurseId = ? where id = ?", new String[] { nurseId, id });
 	}
+
 	// 添加或修改参与手术的麻醉师,返回false表示修改失败
 	public boolean updateAnesthetistToOperation(String id, String anesthetistId) {
-		Worker worker=new WorkerHelper().selectWorkerById(anesthetistId);
-		if(!worker.getPosition().equals("麻醉师"))
+		Worker worker = new WorkerHelper().selectWorkerById(anesthetistId);
+		if (!worker.getPosition().equals("麻醉师"))
 			return false;
-		return new SqlHelper().update(
-				"update operation set anesthetistId = ? where id = ?",
-				new String[] {anesthetistId,id});
+		return new SqlHelper().update("update operation set anesthetistId = ? where id = ?",
+				new String[] { anesthetistId, id });
 	}
-	
+
 	// 添加或修改医生手术记录,返回false表示修改失败
 	public boolean updateDoctorRecordToOperation(String id, String doctorRecord) {
-		return new SqlHelper().update(
-				"update operation set doctorRecord = ? where id=?",
-				new String[] {doctorRecord,id});
+		return new SqlHelper().update("update operation set doctorRecord = ? where id=?",
+				new String[] { doctorRecord, id });
 	}
+
 	// 添加或修改护士手术记录,返回false表示修改失败
 	public boolean updateNurseRecordToOperation(String id, String nurseRecord) {
-		return new SqlHelper().update(
-				"update operation set nurseRecord = ? where id=?",
-				new String[] {nurseRecord,id});
+		return new SqlHelper().update("update operation set nurseRecord = ? where id=?",
+				new String[] { nurseRecord, id });
 	}
+
 	// 添加或修改麻醉师手术记录,返回false表示修改失败
 	public boolean updateAnesthetistRecordToOperation(String id, String anesthetistRecord) {
-		return new SqlHelper().update(
-				"update operation set anesthetistRecord = ? where id=?",
-				new String[] {anesthetistRecord,id});
+		return new SqlHelper().update("update operation set anesthetistRecord = ? where id=?",
+				new String[] { anesthetistRecord, id });
 	}
-	
+
 	// 添加或修改手术室,返回false表示修改失败
 	public boolean updateRoomToOperation(String id, String roomId) {
-		return new SqlHelper().update(
-				"update operation set roomId = ? where id=?",
-				new String[] {roomId,id});
+		return new SqlHelper().update("update operation set roomId = ? where id=?", new String[] { roomId, id });
 	}
-	
+
+	// 删除手术,返回false表示修改失败
+	public boolean deleteOperation(String id) {
+		return new SqlHelper().update("delete from operation where id=?", new String[] { id });
+	}
 
 }

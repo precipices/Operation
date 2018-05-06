@@ -1,6 +1,5 @@
 package com.operation.appoint;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,7 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import com.operation.common.Message;
 import com.operation.common.Operation;
+import com.operation.mainframe.InitComponent;
+import com.operation.manager.DeleteWorkerPane;
 import com.operation.myComponent.BackButton;
 import com.operation.myComponent.BackFrame;
 import com.operation.myComponent.BackPane;
@@ -110,7 +112,24 @@ public class ExistOperation extends BackPane{
 				parentPane.showInfoPane(operation);
 			}else if(a.getActionCommand().equals("deleteButton")) {
 				System.out.println("点击了删除按扭");
-				JOptionPane.showMessageDialog(ExistOperation.this, "权限不足!");
+				System.out.println(InitComponent.worker.getPosition());
+				if(InitComponent.worker.getPosition().equals("医生")) {
+					if(JOptionPane.showConfirmDialog(ExistOperation.this, "确定删除?","警告",JOptionPane.YES_NO_OPTION)>=1) {
+						return;
+					}
+					if(InitComponent.helper.deleteOperation(operation.getId())) {
+						JOptionPane.showMessageDialog(ExistOperation.this, "删除成功!");
+						InitComponent.helper.sendMessage(operation.getNurseId(), operation.getId(), Message.NOTCHOOSE);
+						InitComponent.helper.sendMessage(operation.getAnesthetistId(), operation.getId(), Message.NOTCHOOSE);
+						JOptionPane.showMessageDialog(ExistOperation.this, "系统向"+operation.getNurseId()+"和"+operation.getAnesthetistId()+"发送了确认消息!");
+						parentPane.updateListPane();
+					}
+					else {
+						JOptionPane.showMessageDialog(ExistOperation.this, "删除失败!");
+					}
+				}else {
+					JOptionPane.showMessageDialog(ExistOperation.this, "权限不足!");
+				}
 			}
 		}
 	}

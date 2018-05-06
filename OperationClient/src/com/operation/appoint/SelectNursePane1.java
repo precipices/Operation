@@ -82,6 +82,7 @@ public class SelectNursePane1 extends BackPane {
 		Date begin=parentPane.getDate();
 		System.out.println("Ê±¼ä:"+begin);
 		Vector<Worker> workers = InitComponent.helper.selectNursesByDate(begin);
+		if(workers!=null&&workers.size()!=0)
 		this.setRowData(workers);
 	}
 	public Vector<String> getColumnNames() {

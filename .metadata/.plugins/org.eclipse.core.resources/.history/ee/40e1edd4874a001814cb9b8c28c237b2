@@ -1,8 +1,0 @@
-package com.operation.mainframe;
-
-import com.operation.appoint.PatientPane;
-
-public class InitComponent {
-	public static PatientPane patientPane=new PatientPane();
-
-}

@@ -5,45 +5,49 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import com.operation.common.Worker;
 import com.operation.manager.ManagerMainFrame;
+import com.operation.myComponent.BackButton;
+import com.operation.myComponent.BackFrame;
+import com.operation.myComponent.BackPane;
 import com.operation.rpc.RPCHelper;
 
-public class Login extends JFrame implements ActionListener {
+public class Login extends BackFrame implements ActionListener {
 	JTextField id;
 	JTextField password;
-	JButton loginButton;
+	BackButton loginButton;
 
+	HelloWindow h=null;
+	MainFrame m=null;
 	public Login() {
-		super("手术预约排班系统登陆");
+		super("手术预约排班系统登陆窗", "./imgs/bg.jpg");
 		// 组件
 		JLabel jl1 = new JLabel("账号：");
 		JLabel jl2 = new JLabel("密码：");
 		id = new JTextField(10);
 		password = new JPasswordField(10);
-		loginButton = new JButton("登    录");
+		loginButton = new BackButton("登    录");
 
 		// 添加监听器
 		loginButton.addActionListener(this);
 
 		// 布局
-		JPanel jp1 = new JPanel();
-		JPanel jp2 = new JPanel();
-		JPanel jp3 = new JPanel();
+		BackPane jp1 = new BackPane();
+		BackPane jp2 = new BackPane();
+		BackPane jp3 = new BackPane();
 		jp1.add(jl1);
 		jp1.add(id);
 		jp2.add(jl2);
 		jp2.add(password);
 		jp3.add(loginButton);
-		JPanel jp = new JPanel();
+		BackPane jp = new BackPane();
 		jp.setLayout(new BorderLayout());
 		jp.add(jp1, BorderLayout.NORTH);
 		jp.add(jp2, BorderLayout.CENTER);
@@ -103,13 +107,20 @@ public class Login extends JFrame implements ActionListener {
 				this.dispose();
 				Worker worker = helper.selectWorkerById(id_Str);
 				InitComponent.initClient();
-				new MainFrame(helper, worker);
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						h=new HelloWindow(m);
+					}
+				});
+				m=new MainFrame(helper, worker);
+				m.setVisible(false);
 			}else if(r==RPCHelper.ADMIN) {
 				this.dispose();
-//				Worker worker = helper.selectWorkerById(id_Str);
 				new ManagerMainFrame(helper);
 			}
 		}
-
 	}
 }

@@ -1,0 +1,7 @@
+package com.operation.myComponent;
+
+import javax.swing.JRadioButton;
+
+public class BackRadioButton extends JRadioButton{
+
+}

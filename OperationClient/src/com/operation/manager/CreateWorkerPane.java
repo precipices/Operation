@@ -140,7 +140,7 @@ public class CreateWorkerPane extends BackPane {
 		password.setText("");
 		name.setText("");
 		sex.setSelectedIndex(0);
-		birth.setText("");
+		birth.setText("单击选择时间");
 		position.setSelectedIndex(0);
 		call.setText("");
 		section.setSelectedIndex(0);

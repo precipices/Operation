@@ -83,7 +83,7 @@ insert into operation values('o0005','手术5','2018-5-20','13','p0001','w0001','w
 
 select * from worker
 select * from patient
-select * from operation
+select * from operation order by beginTime desc
 select * from room
 
 
@@ -117,19 +117,22 @@ select id,name,sex,birth,call from patient where name = '李四'
 insert into patient (id,name,sex,birth,call) values('p0005', '李八', '女', '1993-8-8', '135-0000-0050')
 --删除病人
 delete from patient where id='p0005'
+--查询某天有空的病人
+select id,name,sex,birth,call from patient where  id not in (select patientId from operation where beginTime = '2018-05-06')
 ---------------------------------------------------------Operation----------------------------------------------------------------------------
 --查询所有手术
-select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation
+select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation order by beginTime desc
 --根据id查单个手术
 select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where id='o0001'
 --根据日期查手术
 select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where beginTime='2018-3-3'
 --查询自某日期之后的手术
-select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where beginTime>='2018-3-3'
+select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord from operation where beginTime>='2018-3-3' order by beginTime desc
 --查两个日期之间的手术
 select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord 
 from operation 
 where beginTime between '2018-1-1' and '2018-3-3'
+order by beginTime desc
 --根据员工id查手术
 select id,name,beginTime,roomId,patientId,doctorId,nurseId,anesthetistId,doctorRecord,nurseRecord,anesthetistRecord 
 from operation 

@@ -43,11 +43,25 @@ public class WorkerHelper {
 		}
 		return workers;
 	}
+	// 查询所有Worker
+	public Vector<Worker> selectAllWorkers() {
+		Vector<Vector<String>> data = new SqlHelper().query(
+				"select id,password,name,sex,birth,position,call,section from worker");
+		if (data.size() == 0)
+			return null;
+		Vector<Worker> workers = new Vector<Worker>();
+		Worker worker = null;
+		for (Vector e : data) {
+			worker = Worker.VectorToWorker(e);
+			workers.add(worker);
+		}
+		return workers;
+	}
 
 	// 查询某天有空的医生，返回null则表示该天没有有空的医生
 	public Vector<Worker> selectDoctorsByDate(Date date) {
 		Vector<Vector<String>> data = new SqlHelper().query(
-				"select id,password,name,sex,birth,position,call,section from worker where position = '医生' and id not in (select nurseId from operation where beginTime = ?)",
+				"select id,password,name,sex,birth,position,call,section from worker where position = '医生' and id not in (select doctorId from operation where beginTime = ?)",
 				new String[] { date.toString() });
 		if (data.size() == 0)
 			return null;
@@ -119,7 +133,10 @@ public class WorkerHelper {
 			Vector<Operation> operations = new OperationHelper().selectWorkerAllOperationsBetween(nurse.getId(),
 					new Date(date.getTime() - (long) 3 * 24 * 60 * 60 * 1000),
 					new Date(date.getTime() + (long) 4 * 24 * 60 * 60 * 1000));
-			if(operations.size()<size) {
+			if(operations==null) {
+				size=0;
+				selectNurse=nurse;
+			}else if(operations.size()<size) {
 				size=operations.size();
 				selectNurse=nurse;
 			}
@@ -143,12 +160,14 @@ public class WorkerHelper {
 			Vector<Operation> operations = new OperationHelper().selectWorkerAllOperationsBetween(anesthetist.getId(),
 					new Date(date.getTime() - (long) 3 * 24 * 60 * 60 * 1000),
 					new Date(date.getTime() + (long) 4 * 24 * 60 * 60 * 1000));
-			if(operations.size()<size) {
+			if(operations==null) {
+				size=0;
+				selectAnesthetist=anesthetist;
+			}else if(operations.size()<=size) {
 				size=operations.size();
 				selectAnesthetist=anesthetist;
 			}
 		}
 		return selectAnesthetist;
 	}
-
 }

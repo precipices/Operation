@@ -1,7 +1,0 @@
-package com.operation.myComponent;
-
-import javax.swing.JTable;
-
-public class BackTable extends JTable{
-
-}

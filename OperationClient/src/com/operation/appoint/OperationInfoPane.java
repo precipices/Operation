@@ -89,9 +89,18 @@ public class OperationInfoPane extends BackPane {
 		anesthetistRecord=new JTextArea(5,20);
 		submit = new BackButton("提交");
 		back = new BackButton("返回");
-		//
-		if(!InitComponent.worker.getPosition().equals("医生")) {
-			doctorRecord.setEnabled(false);
+		if(InitComponent.helper==null) {
+			JOptionPane.showMessageDialog(this, "未连接服务器!");
+		}else {
+			if(!InitComponent.worker.getPosition().equals("医生")) {
+				doctorRecord.setEnabled(false);
+			}
+			if(!InitComponent.worker.getPosition().equals("护士")) {
+				nurseRecord.setEnabled(false);
+			}
+			if(!InitComponent.worker.getPosition().equals("麻醉师")) {
+				anesthetistRecord.setEnabled(false);
+		}
 		}
 		//布局
 		BackPane jp1=new BackPane();

@@ -19,6 +19,7 @@ import com.operation.appoint.PatientPane;
 import com.operation.common.Message;
 import com.operation.common.Operation;
 import com.operation.common.Worker;
+import com.operation.myComponent.BackButton;
 import com.operation.myComponent.BackFrame;
 import com.operation.myComponent.BackPane;
 import com.operation.myComponent.BackToolBar;
@@ -55,6 +56,16 @@ public class MainFrame extends BackFrame {
 			patientButton.setOpaque(false);
 			jtb.add(patientButton);
 		}
+//		//添加刷新按扭
+//		BackButton fresh=new BackButton("刷新");
+//		fresh.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				mainOperationPane.updateListPane();
+//			}
+//		});
+//		jtb.add(fresh);
 		return jtb;
 	}
 
@@ -93,7 +104,7 @@ public class MainFrame extends BackFrame {
 
 		this.setBounds(200, 100, 800, 600);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 
 	class ToolBarListener implements ActionListener {// 监听器类
@@ -145,6 +156,9 @@ public class MainFrame extends BackFrame {
 						int type = m.getMessageType();
 						// 得到信息
 						Operation op = helper.selectOperationById(m.getOperationId());
+						if(op==null) {
+							op=new Operation(m.getOperationId(), "", null, "", "", m.getFromId(), "", "", "", "", "");
+						}
 						String operationName = op.getName();
 						Worker fromWorker = helper.selectWorkerById(m.getFromId());
 						int choose = 0;
@@ -165,6 +179,8 @@ public class MainFrame extends BackFrame {
 								} else if (fromWorker.getPosition().equals("麻醉师")) {
 									helper.updateAnesthetistToOperation(m.getOperationId(), null);
 								}
+								//刷新页面
+								mainOperationPane.updateListPane();//*************************************************************************
 							}
 							break;
 						case Message.ACCEPT:// 对方接受了你的邀请
@@ -200,6 +216,7 @@ public class MainFrame extends BackFrame {
 								mes = "系统为你分配了护士[" + selectWorker.getName() + "]!";
 								JOptionPane.showMessageDialog(MainFrame.this, mes, "自动分配",
 										JOptionPane.INFORMATION_MESSAGE, imageIcon);
+								InitComponent.helper.sendMessage(fromWorker.getId(), op.getId(), Message.NOTCHOOSE);
 							} else if (fromWorker.getPosition().equals("麻醉师")) {
 								selectWorker = helper.autoSelectAnesthetist(op.getBeginTime(), m.getFromId());
 								if (selectWorker == null) {
@@ -218,13 +235,18 @@ public class MainFrame extends BackFrame {
 								mes = "系统为你分配了麻醉师[" + selectWorker.getName() + "]!";
 								JOptionPane.showMessageDialog(MainFrame.this, mes, "自动分配",
 										JOptionPane.INFORMATION_MESSAGE, imageIcon);
+								InitComponent.helper.sendMessage(fromWorker.getId(), op.getId(), Message.NOTCHOOSE);
 							}
+							//刷新页面
+							mainOperationPane.updateListPane();//*************************************************************************
 							break;
 						case Message.NOTCHOOSE:// 你被从该手术中剔除
-							mes = "[" + op.getBeginTime() + "]的手术[" + operationName + "]的发起者更换了参与者,请注意!";
+							mes = "手术[" + op.getId() + "]的发起者更换了参与者,请注意!";
 							// 打开消息窗口
 							JOptionPane.showMessageDialog(MainFrame.this, mes, "手术参与者更换",
 									JOptionPane.INFORMATION_MESSAGE, imageIcon);
+							//刷新页面
+							mainOperationPane.updateListPane();//*************************************************************************
 							break;
 						case Message.AUTOCHOOSE:// 该手术参与者拒绝了参与邀请,你被自动选择为选择为替代者,不可拒绝
 							mes = "[" + op.getBeginTime() + "]的手术[" + operationName
@@ -260,6 +282,7 @@ public class MainFrame extends BackFrame {
 		helper.login("w0001", "123");
 		worker = helper.selectWorkerById("w0001");
 		InitComponent.initClient();
-		new MainFrame(helper, worker);
+		MainFrame m=new MainFrame(helper, worker);
+		m.setVisible(true);
 	}
 }

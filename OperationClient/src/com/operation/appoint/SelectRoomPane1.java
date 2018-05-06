@@ -128,6 +128,7 @@ public class SelectRoomPane1 extends BackPane {
 		Date begin=parentPane.getDate();
 		System.out.println("Ê±¼ä:"+begin);
 		Vector<String> rooms=InitComponent.helper.selectRoomByDate(begin);
+		if(rooms!=null&&rooms.size()!=0)
 		this.setRowData(rooms);
 	}
 }

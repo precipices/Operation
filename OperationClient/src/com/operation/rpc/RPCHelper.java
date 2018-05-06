@@ -23,13 +23,13 @@ public class RPCHelper {
 	public static final int OTHER = -2;// 未知错误
 	public static final int CONNECT_FAIL = -1;// 连接失败
 	public static final int NOT_LOGIN = 0;// 第一个请求不是登陆
-	public static final int LOGINED = 1;//该ID已登陆
+	public static final int LOGINED = 1;// 该ID已登陆
 	public static final int ID_NOT_FOUND = 2;// ID不存在
 	public static final int PASSWORD_NOT_TRUE = 3;// 密码错误
 	public static final int DOCTOR = 4;// 登陆成功,登陆者为医生
 	public static final int NURSE = 5;// 登陆成功,登陆者为护士
 	public static final int ANESTHETIST = 6;// 登陆成功,登陆者为麻醉师
-	public static final int ADMIN=7;// 登陆成功,登陆者为管理员
+	public static final int ADMIN = 7;// 登陆成功,登陆者为管理员
 
 	public RPCHelper() {
 		System.out.println("一个RPCHelper被创建!");
@@ -79,6 +79,7 @@ public class RPCHelper {
 				new Class[] { String.class }, new Object[] { id });
 		return (Worker) request.invoke(call);
 	}
+
 	// 根据姓名查询Worker，返回null则表示id不存在
 	public Vector<Worker> selectWorkerByName(String name) {
 		if (!logined) {
@@ -88,6 +89,17 @@ public class RPCHelper {
 				new Class[] { String.class }, new Object[] { name });
 		return (Vector<Worker>) request.invoke(call);
 	}
+
+	// 查询所有Worker
+	public Vector<Worker> selectAllWorkers() {
+		if (!logined) {
+			return null;
+		}
+		RemoteCall call = new RemoteCall("com.operation.server.ServerHelper", "selectAllWorkers", new Class[] {},
+				new Object[] {});
+		return (Vector<Worker>) request.invoke(call);
+	}
+
 	// 查询某天有空的医生，返回null则表示该天没有有空的医生
 	public Vector<Worker> selectDoctorsByDate(Date date) {
 		if (!logined) {
@@ -97,6 +109,7 @@ public class RPCHelper {
 				new Class[] { Date.class }, new Object[] { date });
 		return (Vector<Worker>) request.invoke(call);
 	}
+
 	// 查询某天有空的护士，返回null则表示该天没有有空的护士
 	public Vector<Worker> selectNursesByDate(Date date) {
 		if (!logined) {
@@ -164,7 +177,17 @@ public class RPCHelper {
 		}
 		RemoteCall call = new RemoteCall("com.operation.server.ServerHelper", "selectPatientByName",
 				new Class[] { String.class }, new Object[] { name });
-		return  (Vector<Patient>) request.invoke(call);
+		return (Vector<Patient>) request.invoke(call);
+	}
+
+	// 查询某天有空的病人，返回null则表示该天没有有空的病人
+	public Vector<Patient> selectPatientsByDate(Date date) {
+		if (!logined) {
+			return null;
+		}
+		RemoteCall call = new RemoteCall("com.operation.server.ServerHelper", "selectPatientsByDate",
+				new Class[] { Date.class }, new Object[] { date });
+		return (Vector<Patient>) request.invoke(call);
 	}
 
 	// 增加病人,返回false表示增加失败
@@ -196,6 +219,7 @@ public class RPCHelper {
 				new Class[] { String.class }, new Object[] { id });
 		return (Operation) request.invoke(call);
 	}
+
 	// 根据name查手术,返回null表示name不存在
 	public Vector<Operation> selectOperationByName(String name) {
 		if (!logined) {
@@ -205,6 +229,7 @@ public class RPCHelper {
 				new Class[] { String.class }, new Object[] { name });
 		return (Vector<Operation>) request.invoke(call);
 	}
+
 	// 某天的所有手术,返回null表示当天没有手术
 	public Vector<Operation> selectOperationByDate(Date date) {
 		if (!logined) {
@@ -355,6 +380,16 @@ public class RPCHelper {
 		return (Boolean) request.invoke(call);
 	}
 
+	// 删除手术,返回false表示修改失败
+	public boolean deleteOperation(String id) {
+		if (!logined) {
+			return false;
+		}
+		RemoteCall call = new RemoteCall("com.operation.server.ServerHelper", "deleteOperation",
+				new Class[] { String.class }, new Object[] { id });
+		return (Boolean) request.invoke(call);
+	}
+
 	// 查询某天有空的手术室,返回null表示当天没有手术室有空
 	public Vector<String> selectRoomByDate(Date date) {
 		if (!logined) {
@@ -385,7 +420,8 @@ public class RPCHelper {
 				new Object[] { toWorkerId, operationId, messageType });
 		return (Boolean) request.invoke(call);
 	}
-//---------------------------------------以下函数由系统调用,不要用-------------------------------------------------------------------------------------
+
+	// ---------------------------------------以下函数由系统调用,不要用-------------------------------------------------------------------------------------
 	// 向服务器查询发给自己的Message
 	public Vector<Message> getMessages() {
 		if (!logined)
@@ -394,7 +430,7 @@ public class RPCHelper {
 				new Object[] {});
 		return (Vector<Message>) request.invoke(call);
 	}
-	
+
 	// 从服务器删除一条Message
 	public boolean removeMessage(Message message) {
 		if (!logined) {
@@ -404,13 +440,14 @@ public class RPCHelper {
 				new Class[] { Message.class }, new Object[] { message });
 		return (Boolean) request.invoke(call);
 	}
+
 	// 查询除refuseId外date+-3天内手术数量最少的护士,返回null表示当天没有有空的护士,返回护士refuseId表示除了当天该id没有有空的护士
 	public Worker autoSelectNurse(Date date, String refuseId) {
 		if (!logined) {
 			return null;
 		}
 		RemoteCall call = new RemoteCall("com.operation.server.ServerHelper", "autoSelectNurse",
-				new Class[] { Date.class,String.class }, new Object[] { date,refuseId });
+				new Class[] { Date.class, String.class }, new Object[] { date, refuseId });
 		return (Worker) request.invoke(call);
 	}
 
@@ -420,7 +457,7 @@ public class RPCHelper {
 			return null;
 		}
 		RemoteCall call = new RemoteCall("com.operation.server.ServerHelper", "autoSelectAnesthetist",
-				new Class[] { Date.class,String.class }, new Object[] { date,refuseId });
+				new Class[] { Date.class, String.class }, new Object[] { date, refuseId });
 		return (Worker) request.invoke(call);
 	}
 }

@@ -76,7 +76,13 @@ public class ServerHelper {
 		}
 		return new WorkerHelper().selectWorkerByName(name);
 	}
-
+	// 查询所有Worker
+	public Vector<Worker> selectAllWorkers() {
+		if (!logined) {
+			return null;
+		}
+		return new WorkerHelper().selectAllWorkers();
+	}
 	// 查询某天有空的医生，返回null则表示该天没有有空的医生
 	public Vector<Worker> selectDoctorsByDate(Date date) {
 		if (!logined) {
@@ -139,7 +145,13 @@ public class ServerHelper {
 		}
 		return new PatientHelper().selectPatientByName(name);
 	}
-
+	// 查询某天有空的病人，返回null则表示该天没有有空的病人
+	public Vector<Patient> selectPatientsByDate(Date date) {
+		if (!logined) {
+			return null;
+		}
+		return new PatientHelper().selectPatientsByDate(date);
+	}
 	// 增加病人,返回false表示增加失败
 	public boolean addPatient(Patient patient) {
 		if (!logined) {
@@ -288,6 +300,13 @@ public class ServerHelper {
 			return false;
 		}
 		return new OperationHelper().updateRoomToOperation(id, roomId);
+	}
+	// 删除手术,返回false表示修改失败
+	public boolean deleteOperation(String id) {
+		if (!logined) {
+			return false;
+		}
+		return new OperationHelper().deleteOperation(id);
 	}
 	//查询某天有空的手术室,返回null表示当天没有手术室有空
 	public Vector<String> selectRoomByDate(Date date){

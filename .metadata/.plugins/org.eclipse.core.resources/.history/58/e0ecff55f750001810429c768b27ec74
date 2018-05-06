@@ -1,0 +1,313 @@
+package com.operation.appoint;
+
+import java.awt.CardLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import com.operation.common.Message;
+import com.operation.common.Operation;
+import com.operation.common.Patient;
+import com.operation.common.Worker;
+import com.operation.mainframe.InitComponent;
+import com.operation.mainframe.InitParas;
+import com.operation.myComponent.BackButton;
+import com.operation.myComponent.BackFrame;
+import com.operation.myComponent.BackPane;
+import com.operation.myComponent.DateChooser;
+
+public class AppointPane extends BackPane {
+	private JLabel beginTime;
+	private String[] jlNames = new String[] { "手术　ID:", "病　　人:", "手术名称:", "手术日期:", "手术　室:", "护　　士:", "麻醉　师:" };
+	private JLabel[] jls = new JLabel[jlNames.length];
+	JTextField id;
+	JTextField patient;
+	JTextField nurse;
+	JTextField anesthetist;
+	JTextField roomName;
+	JButton submit, back;
+	MainOperationPane parentPane;
+	public CardLayout card = null;
+	JComboBox<String> opName;
+
+	SelectNursePane1 selectNursePane = null;
+	SelectAnesthetistPane1 selectAnesthetistPane = null;
+	SelectPatientPane1 selectPatientPane = null;
+	SelectRoomPane1 selectRoomPane = null;
+
+	public AppointPane(MainOperationPane parentPane) {
+		System.out.println("创建了一个预约面板");
+		this.parentPane = parentPane;
+		card = new CardLayout();
+		this.setLayout(card);
+		BackPane mainPane = new BackPane();
+		mainPane.add(createMainPane());
+		this.add(mainPane, "手术预约");
+		selectNursePane = new SelectNursePane1(this);
+		selectAnesthetistPane = new SelectAnesthetistPane1(this);
+		selectPatientPane = new SelectPatientPane1(this);
+		selectRoomPane = new SelectRoomPane1(this);
+		this.add(selectPatientPane, "查询病人");
+		this.add(selectNursePane, "查询护士");
+		this.add(selectAnesthetistPane, "查询麻醉师");
+		this.add(selectRoomPane, "查询手术室");
+	}
+
+	public void showMain() {
+		card.show(this, "手术预约");
+	}
+
+	private Worker nurseInfo = null;
+	private Worker anesthetistInfo = null;
+	private Patient patientInfo = null;
+	private String roomId = null;
+
+	public void showMainWithNurse(Worker nurse) {
+		this.nurseInfo = nurse;
+		this.nurse.setText(nurse.getName());
+		card.show(this, "手术预约");
+	}
+
+	public void showMainWithAnesthetist(Worker anesthetist) {
+		this.anesthetistInfo = anesthetist;
+		this.anesthetist.setText(anesthetist.getName());
+		card.show(this, "手术预约");
+	}
+
+	public void showMainWithPatient(Patient patient) {
+		this.patientInfo = patient;
+		this.patient.setText(patient.getName());
+		card.show(this, "手术预约");
+	}
+
+	public void showMainWithRoom(String roomId) {
+		this.roomId = roomId;
+		this.roomName.setText(roomId);
+		card.show(this, "手术预约");
+	}
+
+	public Date getDate() {
+		Date date = null;
+		try {
+			date = Date.valueOf(beginTime.getText());
+		} catch (Exception e) {
+			return null;
+		}
+		return date;
+	}
+	private BackPane createMainPane() {
+		BackPane mainPane = new BackPane();
+		for (int i = 0; i < jlNames.length; i++) {
+			jls[i] = new JLabel(jlNames[i]);
+		}
+		id=new JTextField(10);
+		patient = new JTextField(10);
+		nurse = new JTextField(10);
+		anesthetist = new JTextField(10);
+		roomName = new JTextField(10);
+		patient.setText("单击选择病人");
+		patient.setEnabled(false);
+		nurse.setText("单击选择护士");
+		nurse.setEnabled(false);
+		anesthetist.setText("单击选择麻醉师");
+		anesthetist.setEnabled(false);
+		roomName.setText("单击选择手术室");
+		roomName.setEnabled(false);
+		opName = new JComboBox<String>(InitParas.OPERATION_NAMES);
+
+		beginTime = new JLabel("单击选择手术时间");
+		DateChooser dateChooser = DateChooser.getInstance("yyyy-MM-dd");
+		dateChooser.register(beginTime);
+
+		submit = new BackButton("提交");
+		back = new BackButton("返回");
+		GridLayout grid = new GridLayout(8, 2, 5, 5);
+		mainPane.setLayout(grid);
+		// 添加到面板上
+		int i = 0;
+		mainPane.add(jls[i++]);
+		mainPane.add(id);
+		mainPane.add(jls[i++]);
+		mainPane.add(patient);
+		mainPane.add(jls[i++]);
+		mainPane.add(opName);
+		mainPane.add(jls[i++]);
+		mainPane.add(beginTime);
+		mainPane.add(jls[i++]);
+		mainPane.add(roomName);
+		mainPane.add(jls[i++]);
+		mainPane.add(nurse);
+		mainPane.add(jls[i++]);
+		mainPane.add(anesthetist);
+		mainPane.add(submit);
+		mainPane.add(back);
+		addSelectListener();
+		return mainPane;
+	}
+
+	public void clearSelect() {
+		nurseInfo = null;
+		anesthetistInfo = null;
+		patientInfo = null;
+		roomId = null;
+		patient.setText("单击选择病人");
+		nurse.setText("单击选择护士");
+		anesthetist.setText("单击选择麻醉师");
+		roomName.setText("单击选择手术室");
+		beginTime.setText("单击选择手术时间");
+		card.show(this, "手术预约");
+	}
+	private void addSelectListener() {
+		patient.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				card.show(AppointPane.this, "查询病人");
+			}
+
+		});
+		nurse.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (getDate() == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择时间!");
+					return;
+				}
+				selectNursePane.getData();
+				card.show(AppointPane.this, "查询护士");
+			}
+
+		});
+		anesthetist.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (getDate() == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择时间!");
+					return;
+				}
+				selectAnesthetistPane.getData();
+				card.show(AppointPane.this, "查询麻醉师");
+			}
+
+		});
+		roomName.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (getDate() == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择时间!");
+					return;
+				}
+				selectRoomPane.getData();
+				card.show(AppointPane.this, "查询手术室");
+			}
+
+		});
+		beginTime.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("点击日期选择器!");
+				nurseInfo = null;
+				anesthetistInfo = null;
+				roomId = null;
+				nurse.setText("单击选择护士");
+				anesthetist.setText("单击选择麻醉师");
+				roomName.setText("单击选择手术室");
+			}
+
+		});
+		submit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(id.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(AppointPane.this, "ID不可为空!");
+					return;
+				}
+				if (patientInfo == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择病人!");
+					return;
+				}
+				if (getDate() == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择时间!");
+					return;
+				}
+				Date beginTime = getDate();
+				if (beginTime.getTime() <= new java.util.Date().getTime() - 24 * 3600 * 1000) {
+					JOptionPane.showMessageDialog(AppointPane.this, "不可选择过去时间!");
+					return;
+				}
+				if (AppointPane.this.roomId == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择手术室!");
+					return;
+				}
+				if (nurseInfo == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择护士!");
+					return;
+				}
+				if (anesthetistInfo == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "请选择麻醉师!");
+					return;
+				}
+				if (InitComponent.helper == null) {
+					JOptionPane.showMessageDialog(AppointPane.this, "未连接服务器!");
+					return;
+				}
+				String name = (String) opName.getSelectedItem();
+				String roomId = AppointPane.this.roomId;
+				String patient = patientInfo.getId();
+				String doctorId = InitComponent.worker.getId();
+				String nurseId = nurseInfo.getId();
+				String anesthetistId = anesthetistInfo.getId();
+
+//				String id_str = "temp";
+				Operation operation = new Operation(id.getText().trim(), name, beginTime, roomId, patient, doctorId, nurseId,
+						anesthetistId, null, null, null);
+				if(InitComponent.helper.addOperation(operation)) {
+					JOptionPane.showMessageDialog(AppointPane.this, "手术添加成功!");
+					InitComponent.helper.sendMessage(nurseInfo.getId(), id.getText(), Message.CHOOSE);
+					InitComponent.helper.sendMessage(anesthetistInfo.getId(), id.getText(), Message.CHOOSE);
+					JOptionPane.showMessageDialog(AppointPane.this, "系统向["+nurseInfo.getId()+":"+nurseInfo.getName()+"]和["+anesthetistInfo.getName()+"]发送手术邀请!");
+					parentPane.showMainWithOperation(operation);
+				}else {
+					JOptionPane.showMessageDialog(AppointPane.this, "手术添加失败!");
+					return;
+				}
+
+			}
+		});
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("点击了返回按扭");
+				parentPane.showMain();
+			}
+		});
+	}
+
+	public static void main(String[] args) {
+		InitComponent.initClient();
+		JFrame f = new BackFrame("test", "./imgs/bg2.jpg");
+		// f.setLayout(new FlowLayout());
+		f.add(new AppointPane(null));
+		// 设置大小和显示类型
+		f.setBounds(200, 100, 800, 600);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+
+}

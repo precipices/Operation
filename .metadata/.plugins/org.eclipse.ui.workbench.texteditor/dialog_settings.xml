@@ -2,12 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Listener" key="selection"/>
+		<item value="BackPane" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="true" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="BackPanel"/>
+			<item value="JPanel"/>
+			<item value="JButton"/>
+			<item value="未连接"/>
+			<item value="JRadioButton"/>
+			<item value="护士"/>
+			<item value="submit"/>
+			<item value="按日期查询"/>
 			<item value="listener"/>
 			<item value="b4"/>
 			<item value="b1"/>
@@ -15,16 +23,15 @@
 			<item value="InitComponent"/>
 			<item value="createCardPanes"/>
 			<item value="OperationListPane"/>
-			<item value="fatherPane"/>
-			<item value="Worker"/>
-			<item value="姓名"/>
-			<item value="helper"/>
-			<item value="radioButton_f"/>
-			<item value="radioButton_m"/>
-			<item value="sex"/>
-			<item value="button_save"/>
 		</list>
 		<list key="replacehistory">
+			<item value="BackPane"/>
+			<item value="BackPanel"/>
+			<item value="BackButton"/>
+			<item value="BackRadioButton"/>
+			<item value="账号"/>
+			<item value="delete"/>
+			<item value="查询全部账号"/>
 			<item value="p1"/>
 			<item value="b2"/>
 			<item value="roomId"/>
@@ -33,20 +40,13 @@
 			<item value="手术名"/>
 			<item value="sexF"/>
 			<item value="sexM"/>
-			<item value="submit"/>
-			<item value="call"/>
-			<item value="age"/>
-			<item value="name"/>
-			<item value="id"/>
-			<item value="patientInfo"/>
-			<item value="查询全部"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="300" key="DIALOG_WIDTH"/>
 		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
 		<item value="410" key="DIALOG_HEIGHT"/>
-		<item value="933" key="DIALOG_X_ORIGIN"/>
-		<item value="129" key="DIALOG_Y_ORIGIN"/>
+		<item value="1081" key="DIALOG_X_ORIGIN"/>
+		<item value="270" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

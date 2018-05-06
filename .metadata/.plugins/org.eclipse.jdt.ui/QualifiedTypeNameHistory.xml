@@ -20,7 +20,6 @@
 <fullyQualifiedTypeName name="com.operation.dao.PatientHelper"/>
 <fullyQualifiedTypeName name="com.operation.dao.Other"/>
 <fullyQualifiedTypeName name="javax.swing.Icon"/>
-<fullyQualifiedTypeName name="com.operation.common.Message"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
@@ -29,7 +28,6 @@
 <fullyQualifiedTypeName name="javax.swing.JComboBox"/>
 <fullyQualifiedTypeName name="java.awt.Font"/>
 <fullyQualifiedTypeName name="com.operation.common.Worker"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="javax.swing.border.EtchedBorder"/>
 <fullyQualifiedTypeName name="com.operation.client.MainOperationPane"/>
 <fullyQualifiedTypeName name="com.operation.client.OperationListPane"/>
@@ -40,10 +38,12 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="com.operation.select.DateTable"/>
 <fullyQualifiedTypeName name="java.util.Vector"/>
-<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="com.operation.common.Patient"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="com.operation.common.Operation"/>
-<fullyQualifiedTypeName name="com.operation.mainframe.InitComponent"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="com.operation.mainframe.InitComponent"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="com.operation.common.Message"/>
+<fullyQualifiedTypeName name="com.operation.common.Operation"/>
 </qualifiedTypeNameHistroy>

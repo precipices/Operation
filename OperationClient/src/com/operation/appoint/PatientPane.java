@@ -8,14 +8,16 @@ import java.sql.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.operation.common.Patient;
 import com.operation.mainframe.InitComponent;
+import com.operation.myComponent.BackFrame;
 import com.operation.myComponent.BackPane;
+import com.operation.myComponent.BackRadioButton;
 import com.operation.myComponent.DateChooser;
 
 //新建病人信息的界面
@@ -26,8 +28,8 @@ public class PatientPane extends BackPane {
 	private JTextField name;
 	private JTextField call;
 	private JButton submit;
-	JRadioButton sexM;
-	JRadioButton sexF;
+	BackRadioButton sexM;
+	BackRadioButton sexF;
 	JLabel birth;
 
 	public void clearInput() {
@@ -102,8 +104,8 @@ public class PatientPane extends BackPane {
 		panel_NPcenter.setVisible(true);
 
 		JLabel label_title = new JLabel("新建病人信息");
-		label_title.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_title.setBounds(135, 10, 109, 15);
+		label_title.setFont(new Font("宋体", Font.BOLD, 20));
+		label_title.setBounds(135, 10, 150, 30);
 		panel_NPcenter.add(label_title);
 
 		JLabel label_p_id = new JLabel("请输入编号：");
@@ -131,17 +133,16 @@ public class PatientPane extends BackPane {
 		label_p_sex.setBounds(36, 143, 95, 32);
 		panel_NPcenter.add(label_p_sex);
 
-		sexM = new JRadioButton("男");
+		sexM = new BackRadioButton("男");
 		sexM.setBounds(137, 148, 54, 23);
 		panel_NPcenter.add(sexM);
 
-		sexF = new JRadioButton("女");
+		sexF = new BackRadioButton("女");
 		sexF.setBounds(215, 148, 54, 23);
 		panel_NPcenter.add(sexF);
 
 		ButtonGroup sex = new ButtonGroup();
 		sexM.setSelected(true);
-		sexM.setOpaque(true);
 		sex.add(sexM);
 		sex.add(sexF);
 
@@ -171,6 +172,14 @@ public class PatientPane extends BackPane {
 		panel_NPcenter.add(submit);
 		submit.setActionCommand("submit");
 		submit.addActionListener(listener);
-
+	}
+	public static void main(String[] args) {
+		PatientPane p = new PatientPane();
+		JFrame f = new BackFrame("test", "./imgs/bg2.jpg");
+		f.add(p);
+		f.setBounds(200, 100, 800, 600);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+		f.repaint();
 	}
 }

@@ -58,7 +58,7 @@ public class InvokeServer {
 	 * @param call
 	 * @return
 	 */
-	public Object invoke(RemoteCall call){
+	public synchronized Object invoke(RemoteCall call){
 		System.out.println("向服务器发送请求: "+call);
 		Object get = null;
 		try {
