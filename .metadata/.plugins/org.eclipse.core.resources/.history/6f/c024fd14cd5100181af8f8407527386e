@@ -108,15 +108,15 @@ public class Login extends BackFrame implements ActionListener {
 				Worker worker = helper.selectWorkerById(id_Str);
 				InitComponent.initClient();
 				
-				SwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						h=new HelloWindow(m);
-					}
-				});
+//				SwingUtilities.invokeLater(new Runnable() {
+//					
+//					@Override
+//					public void run() {
+//						h=new HelloWindow(m);
+//					}
+//				});
 				m=new MainFrame(helper, worker);
-//				m.setVisible(true);
+				m.setVisible(true);
 			}else if(r==RPCHelper.ADMIN) {
 				this.dispose();
 				new ManagerMainFrame(helper);

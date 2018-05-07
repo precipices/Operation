@@ -90,7 +90,7 @@ public class MainFrame extends BackFrame {
 		this.helper = helper;
 		InitComponent.helper=helper;
 		//打开消息获取线程
-//		this.openGetMessagesThread();
+		this.openGetMessagesThread();
 		
 		// 添加窗口关闭监听器
 		this.addWindowListener(new MyWindowListener());

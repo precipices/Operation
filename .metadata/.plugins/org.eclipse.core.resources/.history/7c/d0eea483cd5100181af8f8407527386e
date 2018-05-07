@@ -116,7 +116,7 @@ public class Login extends BackFrame implements ActionListener {
 					}
 				});
 				m=new MainFrame(helper, worker);
-//				m.setVisible(true);
+				m.setVisible(true);
 			}else if(r==RPCHelper.ADMIN) {
 				this.dispose();
 				new ManagerMainFrame(helper);
